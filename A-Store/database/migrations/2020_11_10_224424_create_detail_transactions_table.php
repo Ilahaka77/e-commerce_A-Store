@@ -15,9 +15,9 @@ class CreateDetailTransactionsTable extends Migration
     {
         Schema::create('detail_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->constrained('transaction');
-            $table->foreignId('store_id')->constrained('store');
-            $table->foreignId('product_id')->constrained('product');
+            $table->foreignId('transaction_id')->constrained('transactions');
+            $table->foreignId('store_id')->constrained('stores');
+            $table->foreignId('product_id')->constrained('products');
             $table->integer('jumlah');
             $table->double('harga');
             $table->text('keterangan');
