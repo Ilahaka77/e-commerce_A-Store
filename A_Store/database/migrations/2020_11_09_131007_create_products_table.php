@@ -15,13 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_toko')->constrained()->onDelete('cascade');
-            $table->foreignId('kategori_id')->constrained()->onDelete('cascade');
+            $table->foreignId('store_id')->constrained('store');
+            $table->foreignId('categori_id')->constrained('categori');
             $table->string('thubmnail');
             $table->string('nama_barang');
-            $table->string('deskripsi');
-            $table->string('harga_satuan');
-            $table->string('jumlah');
+            $table->text('deskripsi');
+            $table->boolean('harga_satuan');
+            $table->integer('jumlah');
             $table->timestamps();
         });
     }
