@@ -66,8 +66,11 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'avatar' => 'https://via.placeholder.com/150',
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'alamat' => 'masih disini',
+            'role' => 'user'
         ]);
     }
 }
