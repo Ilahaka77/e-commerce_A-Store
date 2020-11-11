@@ -46,4 +46,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function store(){
+        return $this->hasOne('App\Store');
+    }
 }
