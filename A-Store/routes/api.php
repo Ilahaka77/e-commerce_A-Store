@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@login');
-Route::get('user', 'UserController@getAuthenticatedUser')->middleware('jwt.verify');
+Route::post('register', 'APIUserController@register');
+Route::post('login', 'APIUserController@login');
+Route::get('profile', 'APIUserController@getAuthenticatedUser')->middleware('jwt.verify');
+
+
+Route::group(['middleware' => ['jwt.verify']], function () {
+
+    // Route::resource('user', 'APIUserController');
+    Route::post('user/{id}/update', 'APIUserController@update');
+    Route::get('profile', 'APIUserController@profile');
+});
