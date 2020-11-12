@@ -26,4 +26,6 @@ Route::get('home', function () {
 });
 
 Route::resource('users', 'UserController');
+Route::resource('kategoris', 'KategoriController');
+Route::resource('stores', 'StoreController');
 
