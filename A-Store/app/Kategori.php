@@ -8,7 +8,8 @@ class Kategori extends Model
 {
     protected $fillable = ['kategori'];
 
-    public function product(){
+    public function product()
+    {
         return $this->hasOne('App\Product');
     }
 }

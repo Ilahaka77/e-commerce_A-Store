@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Kategori;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $kategoris = Kategori::all();
 
-        return view('user.index', compact('users'));
+        return view('kategori.index', compact('kategoris'));
     }
 
     /**
@@ -28,9 +28,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = user::all();
-        
-        return view('user.create', compact('users'));
+        $kategoris = Kategori::all();
+
+        return view('kategori.create', compact('kategoris'));
     }
 
     /**
@@ -42,25 +42,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|min:2|max:225',
-            'email' => 'required',
-            'password' => 'required',
-            'alamat' => 'required',
-            'role' => 'required',
+            'kategori' => 'required|string|min:5|max:225',
         ], [
-            'email' => 'The email field is required.'
+            'kategori' => 'The kategori field is required.'
         ]);
 
-        user::create([
-            'name' => $request->name, 
-            'avatar' => 'https://via.placeholder.com/150',
-            'email' => $request->email, 
-            'password' => Hash::make($request->get('password')),
-            'alamat' => $request->alamat, 
-            'role' => $request->role,
+        kategori::create([
+            'kategori' => $request->kategori, 
         ]);
 
-        return redirect('users')->with('status', 'User berhasil ditambah!');
+        return redirect('kategoris')->with('status', 'Kategori berhasil ditambah!');
     }
 
     /**
@@ -80,9 +71,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Kategori $kategori)
     {
-        //
+        return view('kategori.edit', compact('kategori')); 
     }
 
     /**
@@ -92,9 +83,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Kategori $kategori)
     {
-        //
+        $request->validate([
+            'kategori' => 'required|string|min:5|max:225',
+        ], [
+            'kategori' => 'The kategori field is required.'
+        ]);
+
+        // cara 1
+        // $kategori->kategori = $request->kategori;
+        // $kategori->save();
+
+        // cara 2
+        Kategori::where('id', $kategori->id)
+            ->update([
+                'kategori' => $request->kategori,
+            ]);
+
+            return redirect('kategoris')->with('status', 'Kategori berhasil diupdate!');
     }
 
     /**
@@ -103,8 +110,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Kategori $kategori)
     {
-        //
+        $kategori->delete();
+
+        return redirect('kategoris')->with('status', 'Kategori berhasil dihapus!');
     }
 }
