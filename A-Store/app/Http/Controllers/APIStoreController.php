@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Store;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class APIStoreController extends Controller
@@ -17,7 +19,7 @@ class APIStoreController extends Controller
         }
     }
 
-    public function store(Request $request, $id){
+    public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'nama_toko' => 'required',
             'alamat' => 'required',
@@ -28,6 +30,10 @@ class APIStoreController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
+        $id = Auth::user()->id;
+        $user = User::where('id', $id)->update([
+            'role' => 'pedagang'
+        ]);
 
         $store = Store::create([
             'user_id' => $id,
@@ -37,6 +43,6 @@ class APIStoreController extends Controller
             'kd_pos' => $request->kd_pos
         ]);
 
-        return response()->json(compact('store'),201);
+        return response()->json(compact('id'),201);
     }
 }

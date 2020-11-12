@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -21,8 +22,8 @@ class APIUserController extends Controller
         }catch(JWTException $e){
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        
-        return response()->json(compact('token'), 200);
+        $user = Auth::user();
+        return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
     public function register(Request $request){
