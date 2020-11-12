@@ -46,10 +46,10 @@
                         <a href="{{ url('users') }}"> <i class="menu-icon fa fa-user"></i>User </a>
                     </li>
                     <li>
-                        <a href="{{ url('Stores') }}"> <i class="menu-icon fa fa-home"></i>Store </a>
+                        <a href="{{ url('stores') }}"> <i class="menu-icon fa fa-home"></i>Store </a>
                     </li>
                     <li>
-                        <a href="{{ url('Kategories') }}"> <i class="menu-icon fa fa-puzzle-piece"></i>Kategori </a>
+                        <a href="{{ url('kategoris') }}"> <i class="menu-icon fa fa-puzzle-piece"></i>Kategori </a>
                     </li>
                     <li>
                         <a href="{{ url('/') }}"> <i class="menu-icon fa fa-sign-out"></i>Logout </a>
