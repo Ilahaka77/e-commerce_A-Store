@@ -106,7 +106,8 @@ class APIUserController extends Controller
      */
     public function show(User $user)
     {
-
+        $user = Auth::user();
+        return $this->sendResponse('success', 'insert is success', $user, 200);
     }
 
     /**
