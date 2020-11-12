@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class APIProductController extends Controller
 {
     public function index(){
-        $data = Product::with('store', 'kategori')->get();
+        $data = Product::with('store')->with('kategori')->get();
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{

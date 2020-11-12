@@ -9,6 +9,6 @@ class Kategori extends Model
     protected $fillable = ['kategori'];
 
     public function product(){
-        return $this->hasOne('App\Product');
+        return $this->hasMany('App\Product');
     }
 }
