@@ -28,4 +28,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('store/{id}/create', 'APIStoreController@store');
 
     Route::get('product', 'APIProductController@index');
+    Route::post('product/create', 'APIProductController@store');
 });

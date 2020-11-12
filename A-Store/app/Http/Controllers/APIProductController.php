@@ -17,4 +17,24 @@ class APIProductController extends Controller
             return $this->sendResponse('success', 'data_founded', $data, 200);
         }
     }
+
+    public function store(Request $request){
+        $gambar = time().'-'.$request->gambar->getClientOriginalName();
+        
+        $request->gambar->move(public_path('img/'), $gambar);
+
+        $data = Product::create([
+            'store_id' => 1,
+            'kategori_id' => 1,
+            'thumbnail' => $gambar,
+            'nm_barang' => $request->nm_barang,
+            'deskripsi' => $request->deskripsi,
+            'harga' => $request->harga,
+            'stok' => $request->stok
+        ]);
+
+        $data->save();
+    
+        return $this->sendResponse('success', 'insert is success', $data , 201);
+    }
 }
