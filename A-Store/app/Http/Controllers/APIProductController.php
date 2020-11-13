@@ -19,7 +19,7 @@ class APIProductController extends Controller
     }
 
     public function store(Request $request){
-        $gambar = time().'-'.$request->gambar->getClientOriginalName();
+        $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
         
         $request->gambar->move(public_path('img/'), $gambar);
 

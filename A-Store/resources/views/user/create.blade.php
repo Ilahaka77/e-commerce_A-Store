@@ -43,7 +43,7 @@
                 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <form action="{{ url('users') }}" method="post">
+                        <form action="{{ url('users') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Nama </label>
