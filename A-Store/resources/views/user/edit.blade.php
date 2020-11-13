@@ -68,13 +68,6 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Password </label>
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user->password) }}" autofocus>
-                                @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
                                 <label>Alamat </label>
                                 <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat', $user->alamat) }}" autofocus>
                                 @error('alamat')

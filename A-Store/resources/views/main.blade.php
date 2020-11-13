@@ -51,9 +51,6 @@
                     <li>
                         <a href="{{ url('kategoris') }}"> <i class="menu-icon fa fa-puzzle-piece"></i>Kategori </a>
                     </li>
-                    <li>
-                        <a href="{{ url('/') }}"> <i class="menu-icon fa fa-sign-out"></i>Logout </a>
-                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -100,8 +97,16 @@
                             <img class="user-avatar rounded-circle" src="{{ asset('style/images/admin.jpg') }}" alt="User Avatar">
                         </a>
                         <div class="user-menu dropdown-menu">
-                                <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                                <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">10</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+                            
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-power -off"></i>{{ __('Logout') }}</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
                         </div>
                     </div>
 
