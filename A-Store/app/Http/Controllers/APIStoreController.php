@@ -23,6 +23,7 @@ class APIStoreController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_toko' => 'required',
             'alamat' => 'required',
+            'no_telepon' =>'required',
             'kota' => 'required',
             'kd_pos' => 'required|min:6'
         ]);
