@@ -23,7 +23,7 @@ class APIStoreController extends Controller
         $user = Auth::user();
 
         if($user->role == 'pedagang'){
-            return $this->sendResponse('warning', 'sudah punya toko',null, 200);
+            return $this->sendResponse('warning', 'sudah punya toko',null, 400);
         }
 
         $validator = Validator::make($request->all(), [
@@ -57,5 +57,9 @@ class APIStoreController extends Controller
         ]);
 
         return $this->sendResponse('success', 'store_is_created', $store, 200);
+    }
+
+    public function update(){
+        
     }
 }

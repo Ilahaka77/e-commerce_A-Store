@@ -31,4 +31,9 @@ class APICartController extends Controller
 
         return $this->sendResponse('success', 'data_founded', $data, 200);
     }
+
+    public function delete($id){
+        $cart = Cart::where('id', $id)->delete();
+        return $this->sendResponse('success', 'data_is_deleted', $cart, 201);
+    }
 }

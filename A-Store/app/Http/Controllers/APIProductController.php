@@ -21,7 +21,7 @@ class APIProductController extends Controller
     public function store(Request $request){
         $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
         
-        $request->gambar->move(public_path('img/thumbnail/'), $gambar);
+        $request->gambar->move(public_path('img/thumbnail'), $gambar);
 
         $data = Product::create([
             'store_id' => 1,
@@ -39,17 +39,47 @@ class APIProductController extends Controller
     }
 
     public function update(Request $request, $id){
-        $validation = Validator::make($request->all(), [
-            'nm_barang' => 'required'
-        ]);
 
         $product = Product::find($id);
 
         $gambar = $product->thumbnail;
         // dd($gambar);
+        if($request->thumbnail !== null){
+            $request->thumbnail->move(public_path('img/thumbnail'), $gambar);
+        }
 
-        $data = Product::where()->update([
-
+        $data = Product::where('id', $id)->update([
+            'kategori_id' => $request->kategori,
+            'thumbnail' => $gambar,
+            'nm_barang' => $request->nama_barang,
+            'deskripsi' => $request->deskripsi
         ]);
+    }
+
+    public function tambahStok(Request $request, $id){
+        $stok = Product::select('stok')->where('id', $id)->get();
+        $stok = $stok + $request->stok;
+
+        Product::where('id', $id)->update([
+            'stok' => $stok
+        ]);
+
+        return $this->sendResponse('success', 'insert is success', $stok , 201);
+    }
+
+    public function kurangStok(Request $request, $id){
+        $stok = Product::select('stok')->where('id', $id)->get();
+        $stok = $stok - $request->stok;
+
+        Product::where('id', $id)->update([
+            'stok' => $stok
+        ]);
+
+        return $this->sendResponse('success', 'insert is success', $stok , 201);
+    }
+
+    public function delete($id){
+        $product = Product::where('id', $id)->delete();
+        return $this->sendResponse('success', 'insert is success', $product , 201);
     }
 }
