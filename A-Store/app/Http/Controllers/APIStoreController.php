@@ -21,6 +21,7 @@ class APIStoreController extends Controller
 
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
+            'thumbnail' => 'required',
             'nama_toko' => 'required',
             'alamat' => 'required',
             'no_telepon' =>'required',
@@ -36,11 +37,8 @@ class APIStoreController extends Controller
             'role' => 'pedagang'
         ]);
 
-        $gambar = 'https://via.placeholder.com/150';
-        if($request->thumbnail !== null){
-            $gambar = uniqid().'-'.$request->thumbnail->getClientOriginalName();
-            $request->thumbnail->move(public_path('img/thumbnail_store/'), $gambar);
-        }
+        $gambar = uniqid().'-'.$request->thumbnail->getClientOriginalName();
+        $request->thumbnail->move(public_path('img/thumbnail_store'), $gambar);
 
         $store = Store::create([
             'user_id' => $id,
