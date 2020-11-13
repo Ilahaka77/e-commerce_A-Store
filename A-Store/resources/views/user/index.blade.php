@@ -69,7 +69,7 @@
                                 {{-- <td>{{ $item->alamat }}</td> --}}
                                 <td>{{ $item->role }}</td>
                                 <td class="text-center">
-                                    <a href="{{ url('users/edit/' . $item->id) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ url('users/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                     <form action="{{ url('users/' . $item->id) }}" method="post" class="d-inline" onsubmit="return confirm('Yakin hapus data?')">

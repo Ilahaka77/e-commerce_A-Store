@@ -16,7 +16,7 @@
             <div class="page-title">
                 <ol class="breadcrumb text-right">
                     <li><a href="#">User</a></li>
-                    <li class="active">Add</li>
+                    <li class="active">Edit</li>
                 </ol>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="pull-left">
-                    <strong>Tambah User</strong>
+                    <strong>Edit User</strong>
                 </div>
                 <div class="pull-right">
                     <a href="{{ url('users') }}" class="btn btn-secondary btn-sm">
@@ -43,46 +43,47 @@
                 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <form action="{{ url('users') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ url('users/'.$user->id) }}" method="post">
+                            @method('PUT')
                             @csrf
                             <div class="form-group">
                                 <label>Nama </label>
-                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" autofocus>
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" autofocus>
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Avatar </label>
-                                <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" value="{{ old('avatar') }}" autofocus>
+                                <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" value="{{ old('avatar', $user->avatar) }}" autofocus>
                                 @error('avatar')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Email </label>
-                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" autofocus>
+                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" autofocus>
                                 @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Password </label>
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" autofocus>
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{ old('password', $user->password) }}" autofocus>
                                 @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Alamat </label>
-                                <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}" autofocus>
+                                <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat', $user->alamat) }}" autofocus>
                                 @error('alamat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Role </label>
-                                <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" value="{{ old('role') }}" autofocus>
+                                <input type="text" name="role" class="form-control @error('role') is-invalid @enderror" value="{{ old('role', $user->role) }}" autofocus>
                                 @error('role')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
