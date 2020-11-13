@@ -140,7 +140,7 @@ class APIUserController extends Controller
             $gambar = $user->avatar;
         }else{
             $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
-            $request->gambar->move(public_path('img/thumbnail/'), $gambar);
+            $request->gambar->move(public_path('img/thumbnail'), $gambar);
         }
         
         $data = User::where('id',$user->id)->update([

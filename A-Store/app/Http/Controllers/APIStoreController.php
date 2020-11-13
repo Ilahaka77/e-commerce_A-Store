@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class APIStoreController extends Controller
 {
     public function index(){
-        $data = Store::with('user')->get();
+        $data = Store::all();
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
@@ -20,6 +20,12 @@ class APIStoreController extends Controller
     }
 
     public function store(Request $request){
+        $user = Auth::user();
+
+        if($user->role == 'pedagang'){
+            return $this->sendResponse('warning', 'sudah punya toko',null, 200);
+        }
+
         $validator = Validator::make($request->all(), [
             'thumbnail' => 'required',
             'nama_toko' => 'required',
