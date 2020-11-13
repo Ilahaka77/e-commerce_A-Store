@@ -35,14 +35,22 @@ class APIStoreController extends Controller
             'role' => 'pedagang'
         ]);
 
+        $gambar = 'https://via.placeholder.com/150';
+        if($request->thumbnail !== null){
+            $gambar = uniqid().'-'.$request->thumbnail->getClientOriginalName();
+            $request->thumbnail->move(public_path('img/thumbnail_store/'), $gambar);
+        }
+
         $store = Store::create([
             'user_id' => $id,
+            'thumbnail' => $gambar,
             'nm_toko' => $request->nama_toko,
+            'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,
             'kota' => $request->kota,
             'kd_pos' => $request->kd_pos
         ]);
 
-        return response()->json(compact('id'),201);
+        return $this->sendResponse('success', 'store_is_created', $store, 200);
     }
 }

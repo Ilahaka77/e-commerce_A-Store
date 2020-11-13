@@ -16,7 +16,9 @@ class CreateStoresTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id()->index();
             $table->foreignId('user_id')->constrained('users');
+            $table->string('thumbnail');
             $table->string('nm_toko');
+            $table->string('no_telepon');
             $table->string('alamat');
             $table->string('kota');
             $table->integer('kd_pos');

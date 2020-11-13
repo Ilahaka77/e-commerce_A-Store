@@ -19,9 +19,9 @@ class APIProductController extends Controller
     }
 
     public function store(Request $request){
-        $gambar = time().'-'.$request->gambar->getClientOriginalName();
+        $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
         
-        $request->gambar->move(public_path('img/'), $gambar);
+        $request->gambar->move(public_path('img/thumbnail/'), $gambar);
 
         $data = Product::create([
             'store_id' => 1,
@@ -36,5 +36,20 @@ class APIProductController extends Controller
         $data->save();
     
         return $this->sendResponse('success', 'insert is success', $data , 201);
+    }
+
+    public function update(Request $request, $id){
+        $validation = Validator::make($request->all(), [
+            'nm_barang' => 'required'
+        ]);
+
+        $product = Product::find($id);
+
+        $gambar = $product->thumbnail;
+        // dd($gambar);
+
+        $data = Product::where()->update([
+
+        ]);
     }
 }

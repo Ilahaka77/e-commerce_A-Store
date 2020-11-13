@@ -16,7 +16,13 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->date('tgl_transaksi');
+            $table->foreignId('store_id')->constrained('stores');
+            $table->foreignId('product_id')->constrained('products');
+            $table->integer('jumlah');
+            $table->double('harga');
+            $table->text('keterangan');
+            $table->boolean('dibayar');
+            $table->boolean('diterima');
             $table->timestamps();
         });
     }

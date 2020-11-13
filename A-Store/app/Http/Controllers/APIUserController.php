@@ -42,7 +42,8 @@ class APIUserController extends Controller
             'avatar' => 'https://via.placeholder.com/150',
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'alamat' => 'masih disini',
+            'no_telepon' => 'kosong',
+            'alamat' => 'kosong',
             'role' => 'user'
         ]);
 
@@ -130,19 +131,27 @@ class APIUserController extends Controller
      * @param  \App\Santri  $santri
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        $gambar = '';
 
-        // $user = JWTAuth::parseToken()->authenticate();
-    
-        // $data = User::where('id',$id)->update([
-        //     'name' => $request->username,
-        //     'avatar' => 'https://via.placeholder.com/150',
-        //     'email' => $user->email,
-        //     'password' => $user->password,
-        //     'alamat' => 'masih disini',
-        //     'role' => 'user'
-        // ]);
+        $user = Auth::user();
+        if($request->gambar == null){
+            $gambar = $user->avatar;
+        }else{
+            $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
+            $request->gambar->move(public_path('img/thumbnail/'), $gambar);
+        }
+        
+        $data = User::where('id',$user->id)->update([
+            'name' => $request->username,
+            'avatar' => 'https://via.placeholder.com/150',
+            'email' => $user->email,
+            'password' => $user->password,
+            'no_telepon' => $request->no_telepon,
+            'alamat' => $request->alamat,
+            'role' => $user->role
+        ]);
     
         return $this->sendResponse('success', 'insert is success', $request->all(), 201);
     }
