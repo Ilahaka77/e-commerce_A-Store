@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Store;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class APIStoreController extends Controller
 
     public function store(Request $request){
         $user = Auth::user();
-
+        $client = new Client();
         if($user->role == 'pedagang'){
             return $this->sendResponse('warning', 'sudah punya toko',null, 400);
         }
@@ -43,8 +44,18 @@ class APIStoreController extends Controller
             'role' => 'pedagang'
         ]);
 
-        $gambar = uniqid().'-'.$request->thumbnail->getClientOriginalName();
-        $request->thumbnail->move(public_path('img/thumbnail_store'), $gambar);
+        $file = base64_encode(file_get_contents($request->thumbnail));
+        $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+            'form_params' => [
+                'key' => '6d207e02198a847aa98d0a2a901485a5',
+                'action' => 'upload',
+                'source' => $file,
+                'format' => 'json'
+            ]
+        ]);
+        $data = $response->getBody()->getContents();
+        $data = json_decode($data);
+        $gambar = $data->display_url;
 
         $store = Store::create([
             'user_id' => $id,

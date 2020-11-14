@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class APIUserController extends Controller
 {
+    
     public function login(Request $request){
         $credentials = $request->only('email', 'password');
 
@@ -134,23 +136,41 @@ class APIUserController extends Controller
     public function update(Request $request)
     {
         $gambar = '';
+        $client = new Client();
 
         $user = Auth::user();
+
         if($request->gambar == null){
             $gambar = $user->avatar;
         }else{
-            $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
-            $request->gambar->move(public_path('img/thumbnail'), $gambar);
+            $file = base64_encode(file_get_contents($request->gambar));
+            $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $file,
+                    'format' => 'json'
+                ]
+            ]);
+            $data = $response->getBody()->getContents();
+            $data = json_decode($data);
+            $gambar = $data->display_url;
         }
+        
+        // if($request->gambar == null){
+        //     $gambar = $user->avatar;
+        // }else{
+        //     $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
+        //     $request->gambar->move(public_path('img/thumbnail'), $gambar);
+        // }
         
         $data = User::where('id',$user->id)->update([
             'name' => $request->username,
-            'avatar' => 'https://via.placeholder.com/150',
+            'avatar' => $gambar,
             'email' => $user->email,
             'password' => $user->password,
             'no_telepon' => $request->no_telepon,
-            'alamat' => $request->alamat,
-            'role' => $user->role
+            'alamat' => $request->alamat
         ]);
     
         return $this->sendResponse('success', 'insert is success', $request->all(), 201);
