@@ -20,6 +20,16 @@ class APIStoreController extends Controller
         }
     }
 
+    public function show(){
+        $id = Auth::user()->id;
+        $store = Store::where('user_id', $id)->get();
+        if($store->count() == 0){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success', 'data_founded', $store, 200);
+        }
+    }
+
     public function store(Request $request){
         $user = Auth::user();
         $client = new Client();
