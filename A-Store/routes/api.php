@@ -22,7 +22,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     // Route::resource('user', 'APIUserController');
     Route::get('user', 'APIUserController@index');
-    Route::put('user/update/{id}', 'APIUserController@update');
+    Route::post('user/update/{id}', 'APIUserController@update');
     Route::get('user/profile', 'APIUserController@profile');
     Route::delete('users/delete', 'APIUserController@profile');
 
@@ -30,8 +30,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('store/create', 'APIStoreController@store');
 
     Route::get('product', 'APIProductController@index');
+    Route::get('product/show/{id}', 'APIProductController@show');
+    Route::get('product/kategori/{id}', 'APIProductController@showKategori');
     Route::post('product/create', 'APIProductController@store');
-    Route::post('product/update/{id}', 'APIProductController@update');
+    Route::put('product/update/{id}', 'APIProductController@update');
     Route::post('product/stok/{id}', 'APIProductController@tambahStok');
 
     Route::post('cart/{id}', 'APICartController@store');
