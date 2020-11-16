@@ -141,9 +141,10 @@ class APIUserController extends Controller
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
-            'no_telepon' => 'min:10|numeric'
+            'no_telepon' => 'min:10|numeric',
+            'avatar' => 'image'
         ]);
-        
+
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
