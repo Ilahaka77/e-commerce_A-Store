@@ -160,7 +160,7 @@ class APIUserController extends Controller
         $data = User::where('id',$id)->update([
             'name' => $request->name,
             'avatar' => $gambar,
-            'email' => $user->email,
+            'email' => $request->email,
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat
         ]);
