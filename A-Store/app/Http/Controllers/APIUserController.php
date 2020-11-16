@@ -133,7 +133,7 @@ class APIUserController extends Controller
      * @param  \App\Santri  $santri
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $gambar = '';
         $client = new Client();
@@ -157,14 +157,7 @@ class APIUserController extends Controller
             $gambar = $data->display_url;
         }
         
-        // if($request->gambar == null){
-        //     $gambar = $user->avatar;
-        // }else{
-        //     $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
-        //     $request->gambar->move(public_path('img/thumbnail'), $gambar);
-        // }
-        
-        $data = User::where('id',$user->id)->update([
+        $data = User::where('id',$id)->update([
             'name' => $request->name,
             'avatar' => $gambar,
             'email' => $user->email,
@@ -172,7 +165,7 @@ class APIUserController extends Controller
             'alamat' => $request->alamat
         ]);
     
-        return $this->sendResponse('success', 'insert is success', $request->all(), 201);
+        return $this->sendResponse('success', 'insert is success', $data, 201);
     }
 
     /**
