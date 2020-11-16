@@ -143,7 +143,7 @@ class APIUserController extends Controller
         if($request->gambar == null){
             $gambar = $user->avatar;
         }else{
-            $file = base64_encode(file_get_contents($request->gambar));
+            $file = base64_encode(file_get_contents($request->avatar));
             $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
                 'form_params' => [
                     'key' => '6d207e02198a847aa98d0a2a901485a5',
@@ -165,10 +165,9 @@ class APIUserController extends Controller
         // }
         
         $data = User::where('id',$user->id)->update([
-            'name' => $request->username,
+            'name' => $request->name,
             'avatar' => $gambar,
             'email' => $user->email,
-            'password' => $user->password,
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat
         ]);
@@ -182,8 +181,11 @@ class APIUserController extends Controller
      * @param  \App\Santri  $santri
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy()
     {
+        $id = Auth::user()->id;
+        $data = User::destroy($id);
+        return $this->sendResponse('success', 'Data has been deleted', $data, 200);
 
     }
 }

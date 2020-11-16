@@ -24,6 +24,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('user', 'APIUserController@index');
     Route::post('user/update', 'APIUserController@update');
     Route::get('user/profile', 'APIUserController@profile');
+    Route::delete('users/delete', 'APIUserController@profile');
 
     Route::get('store', 'APIStoreController@index');
     Route::post('store/create', 'APIStoreController@store');
