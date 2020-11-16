@@ -80,7 +80,36 @@ class APIStoreController extends Controller
         return $this->sendResponse('success', 'store_is_created', $store, 200);
     }
 
-    public function update(){
-        
+    public function update(Request $request, $id){
+        // $store = Store::where('user_id', $id)->get();
+        $client = new Client();
+        $store = Store::find($id);
+        $gambar = '';
+        if(is_null($request->thumbnail)){
+            $gambar = $store->thumbnail;
+        }else{
+            $file = base64_encode(file_get_contents($request->thumbnail));
+            $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $file,
+                    'format' => 'json'
+                ]
+            ]);
+            $data = $response->getBody()->getContents();
+            $data = json_decode($data);
+            $gambar = $data->display_url;
+        }
+
+        $data = Store::where('id', $id)->update([
+            'thumbnail' => $gambar,
+            'nm_toko' => $request->nama_toko,
+            'no_telepon' => $request->no_telepon,
+            'alamat' => $request->alamat,
+            'kota' => $request->kota,
+            'kd_pos' => $request->kd_pos
+        ]);
+
     }
 }

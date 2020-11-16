@@ -18,6 +18,19 @@ class APIProductController extends Controller
         }
     }
 
+    public function show($id){
+        $data = Product::find($id);
+        if(is_null($data)){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success','data_founded', $data, 200);
+        }
+    }
+
+    public function showKategori(){
+        
+    }
+
     public function store(Request $request){
         $gambar = uniqid().'-'.$request->gambar->getClientOriginalName();
         
@@ -77,6 +90,8 @@ class APIProductController extends Controller
 
         return $this->sendResponse('success', 'insert is success', $stok , 201);
     }
+
+    
 
     public function delete($id){
         $product = Product::where('id', $id)->delete();
