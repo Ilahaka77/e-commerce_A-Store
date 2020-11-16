@@ -140,7 +140,7 @@ class APIUserController extends Controller
 
         $user = Auth::user();
 
-        if($request->gambar == null){
+        if(is_null($request->avatar)){
             $gambar = $user->avatar;
         }else{
             $file = base64_encode(file_get_contents($request->avatar));
@@ -154,7 +154,9 @@ class APIUserController extends Controller
             ]);
             $data = $response->getBody()->getContents();
             $data = json_decode($data);
-            $gambar = $data->display_url;
+            $gambar = $data->image->display_url;
+            // dd($gambar);
+
         }
         
         $data = User::where('id',$id)->update([
