@@ -31,5 +31,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('product/tambah/{id}', 'APIProductController@tambahStok');
     Route::post('product/kurang/{id}', 'APIProductController@kurangStok');
 
-    Route::post('cart/{id}', 'APICartController@store');
+    Route::resource('cart', 'APICartController');
 });
