@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Kategori;
 use App\Store;
+use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
