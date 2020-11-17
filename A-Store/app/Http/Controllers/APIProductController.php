@@ -74,7 +74,7 @@ class APIProductController extends Controller
         $store = Store::select('id')->where('user_id', Auth::user()->id)->get();
 
         $data = Product::create([
-            'store_id' => $store,
+            'store_id' => $store->id,
             'kategori_id' => $request->kategori,
             'thumbnail' => $gambar,
             'nm_barang' => $request->nm_barang,
