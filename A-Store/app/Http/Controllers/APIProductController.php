@@ -71,7 +71,8 @@ class APIProductController extends Controller
         $data = json_decode($data);
         $gambar = $data->image->url;
 
-        $store = Store::select('id')->where('user_id', Auth::user()->id)->get();
+        $store = Store::where('user_id', Auth::user()->id)->first();
+        // dd();
 
         $data = Product::create([
             'store_id' => $store->id,
