@@ -69,7 +69,7 @@ class APIProductController extends Controller
         $data = json_decode($data);
         $gambar = $data->image->url;
 
-        $store = Store::select('id')->where('user_id', Auth::user()->id;)->get();
+        $store = Store::select('id')->where('user_id', Auth::user()->id)->get();
 
         $data = Product::create([
             'store_id' => $store,
