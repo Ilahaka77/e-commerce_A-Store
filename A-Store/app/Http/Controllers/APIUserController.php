@@ -54,7 +54,7 @@ class APIUserController extends Controller
         return response()->json(compact('user','token'),201);
     }
 
-    public function profile(){
+    public function index(){
         try{
             if(! $user = JWTAuth::parseToken()->authenticate()){
                 return response()->json(['user_not_found'], 404);
@@ -67,18 +67,9 @@ class APIUserController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
         }
 
-        return response()->json(compact('user'));
+        return $this->sendResponse('success', 'data is founded', $user, 200);   
     }
 
-    public function index()
-    {
-        $data = User::all();
-        if($data->count() == 0){
-            return $this->sendResponse('error','data_not_found', null, 404);
-        }else{
-            return $this->sendResponse('success', 'data_founded', $data, 200);
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
