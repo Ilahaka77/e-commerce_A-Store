@@ -45,7 +45,7 @@ class APIProductController extends Controller
         $gambar = '';
 
         $validator = Validator::make($request->all(),[
-            'thumbnail' => 'required|image'
+            'thumbnail' => 'required|image',
             'nm_barang' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
