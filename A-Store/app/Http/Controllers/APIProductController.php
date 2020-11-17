@@ -67,7 +67,7 @@ class APIProductController extends Controller
         ]);
         $data = $response->getBody()->getContents();
         $data = json_decode($data);
-        $gambar = $data->image->display_url;
+        $gambar = $data->image->url;
 
         $store = Store::select('id')->where('user_id', Auth::user()->id;)->get();
 
@@ -104,7 +104,7 @@ class APIProductController extends Controller
             ]);
             $data = $response->getBody()->getContents();
             $data = json_decode($data);
-            $gambar = $data->image->display_url;
+            $gambar = $data->image->url;
         // dd($gambar);
         }
 
@@ -137,8 +137,6 @@ class APIProductController extends Controller
 
         return $this->sendResponse('success', 'insert is success', $stok , 201);
     }
-
-    
 
     public function delete($id){
         $product = Product::where('id', $id)->delete();
