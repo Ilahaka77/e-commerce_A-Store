@@ -106,9 +106,10 @@ class APIProductController extends Controller
         $product = Product::find($id);
         $client = new Client();
 
-        $gambar = $product->thumbnail;
-
-        if(!is_null($request->thumbnail)){
+        $gambar = '';
+        if(is_null($request->thumbnail)){
+            $gambar = $product->thumbnail;
+        }else{
             $file = base64_encode(file_get_contents($request->thumbnail));
             $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
                 'form_params' => [
@@ -128,8 +129,11 @@ class APIProductController extends Controller
             'kategori_id' => $request->kategori,
             'thumbnail' => $gambar,
             'nm_barang' => $request->nm_barang,
-            'deskripsi' => $request->deskripsi
+            'deskripsi' => $request->deskripsi,
+            'harga' => $request->harga
         ]);
+        return $this->sendResponse('success', 'update is success', $data , 201);
+
     }
 
     public function tambahStok(Request $request, $id){
@@ -140,7 +144,7 @@ class APIProductController extends Controller
             'stok' => $stok
         ]);
 
-        return $this->sendResponse('success', 'insert is success', $stok , 201);
+        return $this->sendResponse('success', 'update is success', $stok , 201);
     }
 
     public function kurangStok(Request $request, $id){
@@ -151,11 +155,11 @@ class APIProductController extends Controller
             'stok' => $stok
         ]);
 
-        return $this->sendResponse('success', 'insert is success', $stok , 201);
+        return $this->sendResponse('success', 'update is success', $stok , 201);
     }
 
     public function delete($id){
         $product = Product::where('id', $id)->delete();
-        return $this->sendResponse('success', 'insert is success', $product , 201);
+        return $this->sendResponse('success', 'data has been deleted', $product , 201);
     }
 }

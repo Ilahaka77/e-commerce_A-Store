@@ -19,6 +19,15 @@ class APITransactionController extends Controller
     }
 
     public function store(Request $request){
-        user_id, store_id, product_id, jumlah, harga,keterangan,
+        
+        $data = Transaction::create([
+            'user_id' => $request->user_id,
+            'store_id' => $request->store_id,
+            'product_id' => $request->product_id,
+            'jumlah' => $request->jumlah,
+            'harga' => $request->harga,
+            'keterangan' => $request->keterangan,
+            'status' => 'pembayaran'
+        ]);
     }
 }
