@@ -127,7 +127,7 @@ class APIProductController extends Controller
         $data = Product::where('id', $id)->update([
             'kategori_id' => $request->kategori,
             'thumbnail' => $gambar,
-            'nm_barang' => $request->nama_barang,
+            'nm_barang' => $request->nm_barang,
             'deskripsi' => $request->deskripsi
         ]);
     }
