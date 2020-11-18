@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Validator;
 class APICartController extends Controller
 {
     public function index(){
-        
+        $data = Cart::where('user_id', Auth::user()->id)->get();
+        if($data->count() == 0){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success', 'data_founded', $data, 200);
+        }
         
     }
 
@@ -31,5 +36,11 @@ class APICartController extends Controller
         ]);
 
         return $this->sendResponse('success', 'data_founded', $data, 200);
+    }
+
+    public function destroy($id){
+        $data = Cart::where('product_id', $id)->first();
+        $data->delete();
+        return $this->sendResponse('success', 'data has been deleted', $data, 200);
     }
 }
