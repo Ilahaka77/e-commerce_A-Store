@@ -17,7 +17,7 @@ class APICartController extends Controller
 
     public function store(Request $request, $id){
         $user = Auth::user()->id;
-        $product = Product::with('store')->find($id);
+        $product = Product::where('id', $id)->with('store')->first();
         $store = $product->store_id;
         $harga = $product->harga * $request->jumlah;
         
@@ -31,10 +31,5 @@ class APICartController extends Controller
         ]);
 
         return $this->sendResponse('success', 'data_founded', $data, 200);
-    }
-
-    public function delete($id){
-        $cart = Cart::where('id', $id)->delete();
-        return $this->sendResponse('success', 'data_is_deleted', $cart, 201);
     }
 }
