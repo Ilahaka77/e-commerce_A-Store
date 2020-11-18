@@ -25,11 +25,12 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get('kategori', 'APIKategoriController@index');
 
-    Route::resource('product', 'APIProductController');
-
     Route::get('product/kategori/{id}', 'APIProductController@showKategori');
+    Route::get('product/store', 'APIProductController@showStore');
     Route::post('product/tambah/{id}', 'APIProductController@tambahStok');
     Route::post('product/kurang/{id}', 'APIProductController@kurangStok');
+    Route::resource('product', 'APIProductController');
+
 
     Route::resource('cart', 'APICartController');
 });

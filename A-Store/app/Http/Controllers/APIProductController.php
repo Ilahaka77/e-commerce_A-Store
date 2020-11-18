@@ -41,6 +41,18 @@ class APIProductController extends Controller
         }
     }
 
+    public function showStore(){
+        $store = Store::where('user_id', Auth::user()->id)->first();
+
+        $data = Product::where('store_id', $store->id)->get();
+        // dd($data);
+        if(is_null($data)){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success','data_founded', $data, 200);
+        }
+    }
+
     public function store(Request $request){
 
         $client = new Client();
@@ -92,6 +104,7 @@ class APIProductController extends Controller
     public function update(Request $request, $id){
 
         $product = Product::find($id);
+        $client = new Client();
 
         $gambar = $product->thumbnail;
 
