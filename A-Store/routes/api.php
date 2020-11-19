@@ -20,13 +20,17 @@ Route::post('login', 'APIUserController@login');
 
 Route::group(['middleware' => ['jwt.verify']], function () {
 
-    // Route::resource('user', 'APIUserController');
-    Route::post('user/{id}/update', 'APIUserController@update');
-    Route::get('user/profile', 'APIUserController@profile');
+    Route::resource('user', 'APIUserController');
+    Route::resource('store', 'APIStoreController');
 
-    Route::get('store', 'APIStoreController@index');
-    Route::post('store/{id}/create', 'APIStoreController@store');
+    Route::get('kategori', 'APIKategoriController@index');
 
-    Route::get('product', 'APIProductController@index');
-    Route::post('product/create', 'APIProductController@store');
+    Route::get('product/kategori/{id}', 'APIProductController@showKategori');
+    Route::get('product/store', 'APIProductController@showStore');
+    Route::post('product/tambah/{id}', 'APIProductController@tambahStok');
+    Route::post('product/kurang/{id}', 'APIProductController@kurangStok');
+    Route::resource('product', 'APIProductController');
+
+
+    Route::resource('cart', 'APICartController');
 });
