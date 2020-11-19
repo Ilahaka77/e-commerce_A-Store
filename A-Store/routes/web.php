@@ -22,10 +22,17 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('home', function () {
-    return view('{home}');
+    return view('-home');
 });
+
+Route::group(['middleware' => ['auth']], function () {
 
 Route::resource('users', 'UserController');
 Route::resource('kategoris', 'KategoriController');
 Route::resource('stores', 'StoreController');
+Route::resource('products', 'ProductController');
+});
+
+
+
 
