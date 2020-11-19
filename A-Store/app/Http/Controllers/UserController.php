@@ -125,6 +125,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect('users')->with('status', 'Kategori berhasil dihapus!');
     }
 }

@@ -36,23 +36,36 @@
                 <a class="navbar-brand" href="./">A-STORE</a>
                 <a class="navbar-brand hidden" href="./">A</a>
             </div>
-
+            
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="{{ url('home') }}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
                     </li>
-                    <li>
-                        <a href="{{ url('users') }}"> <i class="menu-icon fa fa-user"></i>User </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('stores') }}"> <i class="menu-icon fa fa-home"></i>Store </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('kategoris') }}"> <i class="menu-icon fa fa-puzzle-piece"></i>Kategori </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/') }}"> <i class="menu-icon fa fa-sign-out"></i>Logout </a>
+                    <h3 class="menu-title">UI elements</h3><!-- /.menu-title -->
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>Components</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            @if (Auth::user()->role == 'super admin')
+                                
+                            <li><i class="fa fa-user-circle-o"></i><a href="{{ url('users') }}">User</a></li>
+                            <li><i class="fa fa-home"></i><a href="{{ url('stores') }}">Store</a></li>
+                            <li><i class="fa fa-shopping-cart"></i><a href="{{ url('kategoris') }}">Kategori</a></li>
+                            @else
+                            <li><i class="fa fa-user-circle-o"></i><a href="{{ url('users') }}">User</a></li>
+                            <li><i class="fa fa-shopping-bag"></i><a href="{{ url('products') }}">Product</a></li>
+                            <li><i class="fa fa-shopping-basket"></i><a href="{{ url('') }}">Pesanan</a></li>
+                            <li><i class="fa fa-handshake-o"></i><a href="{{ url('') }}">Transaksi</a></li>
+                            @endif
+                        </ul>
+                        <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
+                        <li>
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="menu-icon fa fa-history"></i>{{ __('Logout') }}</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                            </form>
+                        </li>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -100,8 +113,17 @@
                             <img class="user-avatar rounded-circle" src="{{ asset('style/images/admin.jpg') }}" alt="User Avatar">
                         </a>
                         <div class="user-menu dropdown-menu">
-                                <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                                <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">10</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+                            
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-power -off"></i>{{ __('Logout') }}</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                            </form>
                         </div>
                     </div>
 
