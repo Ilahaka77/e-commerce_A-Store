@@ -35,6 +35,8 @@ class APICartController extends Controller
             'keterangan' => $request->keterangan
         ]);
 
+        $data->save();
+
         return $this->sendResponse('success', 'data_founded', $data, 200);
     }
 
@@ -51,7 +53,7 @@ class APICartController extends Controller
     }
 
     public function destroy($id){
-        $data = Cart::where('product_id', $id)->first();
+        $data = Cart::where('id', $id)->first();
         $data->delete();
         return $this->sendResponse('success', 'data has been deleted', $data, 200);
     }
