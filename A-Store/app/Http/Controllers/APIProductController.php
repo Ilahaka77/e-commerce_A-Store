@@ -49,14 +49,13 @@ class APIProductController extends Controller
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
-            return $this->sendResponse('success','data_founded', $data, 200);
+            return $this->sendResponse('success','data_founded', [$store, $data], 200);
         }
     }
 
     public function store(Request $request){
 
         $client = new Client();
-        $gambar = '';
 
         $validator = Validator::make($request->all(),[
             'thumbnail' => 'required|image',

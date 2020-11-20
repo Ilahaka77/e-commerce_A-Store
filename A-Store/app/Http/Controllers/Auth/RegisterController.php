@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'no_telepon' => 'kosong',
             'alamat' => 'masih disini',
-            'role' => 'user'
+            'role' => 'super admin'
         ]);
     }
 }
