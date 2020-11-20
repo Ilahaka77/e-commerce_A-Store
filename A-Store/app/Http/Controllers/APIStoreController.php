@@ -20,7 +20,7 @@ class APIStoreController extends Controller
         }
     }
 
-    public function show(){
+    public function show($id){
         $id = Auth::user()->id;
         $store = Store::where('user_id', $id)->get();
         if($store->count() == 0){
