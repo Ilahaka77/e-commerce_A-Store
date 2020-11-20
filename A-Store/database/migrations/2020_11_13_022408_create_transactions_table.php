@@ -20,7 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('product_id')->constrained('products');
             $table->integer('jumlah');
             $table->double('harga');
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->enum('status', ['pembayaran', 'proses', 'diterima']);
             $table->timestamps();
         });

@@ -19,6 +19,9 @@ class CreateStoresTable extends Migration
             $table->string('thumbnail');
             $table->string('nm_toko');
             $table->string('no_telepon');
+            $table->string('no_rekening');
+            $table->string('pemilik_rekening');
+            $table->string('bank');
             $table->string('alamat');
             $table->string('kota');
             $table->integer('kd_pos');
