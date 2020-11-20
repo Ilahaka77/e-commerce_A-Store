@@ -38,6 +38,18 @@ class APICartController extends Controller
         return $this->sendResponse('success', 'data_founded', $data, 200);
     }
 
+    public function update(Request $request, $id){
+        $cart = Cart::where('id', $id)->with('product')->first();
+        $cart->jumlah = $request->jumlah;
+        $cart->harga = $request->jumlah*$cart->product->harga;
+        $cart->keterangan = $request->keterangan;
+        $cart->save();
+        
+        return $this->sendResponse('success', 'data is updated', $cart, 200);
+
+
+    }
+
     public function destroy($id){
         $data = Cart::where('product_id', $id)->first();
         $data->delete();

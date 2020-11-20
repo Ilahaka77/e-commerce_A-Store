@@ -32,16 +32,20 @@ class APIStoreController extends Controller
 
     public function store(Request $request){
         $user = Auth::user();
+        $id = $user->id;
         $client = new Client();
         if($user->role == 'pedagang'){
             return $this->sendResponse('warning', 'sudah punya toko',null, 400);
         }
 
         $validator = Validator::make($request->all(), [
-            'thumbnail' => 'required',
+            'thumbnail' => 'required|image',
             'nama_toko' => 'required',
             'alamat' => 'required',
-            'no_telepon' =>'required',
+            'no_telepon' =>'required|numeric|digits_between:10,13',
+            'no_rekening' => 'required',
+            'pemilik_rekening' => 'required',
+            'bank' => 'required',
             'kota' => 'required',
             'kd_pos' => 'required|min:6'
         ]);
@@ -49,10 +53,7 @@ class APIStoreController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $id = Auth::user()->id;
-        $user = User::where('id', $id)->update([
-            'role' => 'pedagang'
-        ]);
+        
 
         $file = base64_encode(file_get_contents($request->thumbnail));
         $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
@@ -65,16 +66,22 @@ class APIStoreController extends Controller
         ]);
         $data = $response->getBody()->getContents();
         $data = json_decode($data);
-        $gambar = $data->display_url;
+        $gambar = $data->image->url;
 
         $store = Store::create([
             'user_id' => $id,
             'thumbnail' => $gambar,
             'nm_toko' => $request->nama_toko,
             'no_telepon' => $request->no_telepon,
+            'no_rekening' => $request->no_rekening,
+            'pemilik_rekening' => $request->pemilik_rekening,
+            'bank' => $request->bank,
             'alamat' => $request->alamat,
             'kota' => $request->kota,
             'kd_pos' => $request->kd_pos
+        ]);
+        $user = User::where('id', $id)->update([
+            'role' => 'pedagang'
         ]);
 
         return $this->sendResponse('success', 'store_is_created', $store, 200);
@@ -84,6 +91,23 @@ class APIStoreController extends Controller
         // $store = Store::where('user_id', $id)->get();
         $client = new Client();
         $store = Store::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'thumbnail' => 'image',
+            'nama_toko' => 'required',
+            'alamat' => 'required',
+            'no_telepon' =>'required|numeric|digits_between:10,13',
+            'no_rekening' => 'required',
+            'pemilik_rekening' => 'required',
+            'bank' => 'required',
+            'kota' => 'required',
+            'kd_pos' => 'required|digits:6|numeric'
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
         $gambar = '';
         if(is_null($request->thumbnail)){
             $gambar = $store->thumbnail;
@@ -99,17 +123,21 @@ class APIStoreController extends Controller
             ]);
             $data = $response->getBody()->getContents();
             $data = json_decode($data);
-            $gambar = $data->display_url;
+            $gambar = $data->image->url;
         }
 
-        $data = Store::where('id', $id)->update([
-            'thumbnail' => $gambar,
-            'nm_toko' => $request->nama_toko,
-            'no_telepon' => $request->no_telepon,
-            'alamat' => $request->alamat,
-            'kota' => $request->kota,
-            'kd_pos' => $request->kd_pos
-        ]);
+        $store->thumbnail = $gambar;
+        $store->nm_toko = $request->nama_toko;
+        $store->no_telepon = $request->no_telepon;
+        $store->no_rekening = $request->no_rekening;
+        $store->pemilik_rekening = $request->pemilik_rekening;
+        $store->bank = $request->bank;
+        $store->alamat = $request->alamat;
+        $store->kota = $request->kota;
+        $store->kd_pos = $request->kd_pos;
+
+        $store->save();
+        return $this->sendResponse('success', 'store is update', $store, 200);
 
     }
 }
