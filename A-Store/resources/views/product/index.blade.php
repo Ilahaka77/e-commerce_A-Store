@@ -70,7 +70,7 @@
                                 <td>{{ $item->kategori->kategori }}</td>
                                 {{-- <td><img src="{{ $item->avatar }}" alt=""></td> --}}
                                 {{-- <td>{{ $item->deskripsi }}</td> --}}
-                                <td>{{ $item->harga }}</td>
+                                <td>Rp. {{ number_format($item->harga) }}</td>
                                 <td>{{ $item->stok }}</td>
                                 <td class="text-center">
                                     <a href="{{ url('products/' . $item->id) }}" class="btn btn-warning btn-sm">

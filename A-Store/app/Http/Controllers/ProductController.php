@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Store;
 use App\Kategori;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -40,24 +42,46 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $gambar = '';
+        $client = new Client();
+
+        $validator = Validator::make($request->all(), [
             'store_id' => 'required',
             'kategori_id' => 'required',
-            'nm_barang' => 'required|min:2',
-            // 'thumbnail' => 'required',
+            'nm_barang' => 'required|string|min:2|max:225',
+            'thumbnail' => 'image',
             'deskripsi' => 'required',
             'harga' => 'required',
             'stok' => 'required',
-        ], [
-            'nm_barang.required' => 'Nama Barang tidak boleh kosong.'
         ]);
 
-        // mass assigment
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if (is_null($request->thumbnail)) {
+            $gambar = 'https://via.placeholder.com/150';
+        } else {
+            $file = base64_encode(file_get_contents($request->thumbnail));
+            $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $file,
+                    'format' => 'json'
+                ]
+            ]);
+            $data = $response->getBody()->getContents();
+            $data = json_decode($data);
+            $gambar = $data->image->display_url;
+            // dd($gambar);
+        }
+
         Product::create([
             'store_id' => $request->store_id,
             'kategori_id' => $request->kategori_id,
             'nm_barang' => $request->nm_barang,
-            'thumbnail' => 'kosong',
+            'thumbnail' => $gambar,
             'deskripsi' => $request->deskripsi,
             'harga' => $request->harga,
             'stok' => $request->stok,
@@ -101,28 +125,50 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        // $gambar = '';
+        $client = new Client();
+
+        $validator = Validator::make($request->all(), [
             'store_id' => 'required',
             'kategori_id' => 'required',
             'nm_barang' => 'required|min:2',
-            // 'thumbnail' => 'required',
+            'thumbnail' => 'image',
             'deskripsi' => 'required',
             'harga' => 'required',
             'stok' => 'required',
-        ], [
-            'nm_barang.required' => 'Nama Barang tidak boleh kosong.'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if (is_null($request->thumbnail)) {
+            $gambar = $product->thumbnail;
+        } else {
+            $file = base64_encode(file_get_contents($request->thumbnail));
+            $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $file,
+                    'format' => 'json'
+                ]
+            ]);
+            $data = $response->getBody()->getContents();
+            $data = json_decode($data);
+            $gambar = $data->image->display_url;
+        }
+        
         Product::where('id', $product->id)
-        ->update([
-            'store_id' => $request->store_id,
-            'kategori_id' => $request->kategori_id,
-            'nm_barang' => $request->nm_barang,
-            'thumbnail' => 'kosong',
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
-            'stok' => $request->stok,
-        ]);
+            ->update([
+                'store_id' => $request->store_id,
+                'kategori_id' => $request->kategori_id,
+                'nm_barang' => $request->nm_barang,
+                'thumbnail' => $gambar,
+                'deskripsi' => $request->deskripsi,
+                'harga' => $request->harga,
+                'stok' => $request->stok,
+            ]);
 
         return redirect('products')->with('status', 'Product berhasil diupdate!');
     }
