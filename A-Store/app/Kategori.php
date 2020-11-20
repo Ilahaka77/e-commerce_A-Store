@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
-    protected $fillable = ['kategori'];
+    protected $fillable = ['icon', 'kategori'];
 
     public function product()
     {
