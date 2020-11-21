@@ -50,7 +50,8 @@ class APIProductController extends Controller
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
             // return $this->sendResponse('success','data_founded', [$store, $data], 200);
-            return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
+            // return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
+            return response()->json(compact('store', 'data'), 200);
         }
     }
 
