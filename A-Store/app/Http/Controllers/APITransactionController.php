@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,20 @@ class APITransactionController extends Controller
             'jumlah' => $request->jumlah,
             'harga' => $request->harga,
             'keterangan' => $request->keterangan,
+            'status' => 'pembayaran'
+        ]);
+    }
+
+    public function checkout($id){
+        $cart = Cart::find($id);
+
+        $data = Transaction::create([
+            'user_id' => $cart->user_id,
+            'store_id' => $cart->store_id,
+            'product_id' => $cart->product_id,
+            'jumlah' => $cart->jumlah,
+            'harga' => $cart->harga,
+            'keterangan' => $cart->keterangan,
             'status' => 'pembayaran'
         ]);
     }

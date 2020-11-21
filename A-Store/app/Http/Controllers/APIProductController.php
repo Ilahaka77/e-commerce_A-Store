@@ -159,7 +159,7 @@ class APIProductController extends Controller
         return $this->sendResponse('success', 'update is success', $stok , 201);
     }
 
-    public function delete($id){
+    public function destroy($id){
         $product = Product::where('id', $id)->delete();
         return $this->sendResponse('success', 'data has been deleted', $product , 201);
     }
