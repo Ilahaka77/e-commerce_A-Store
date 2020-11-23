@@ -138,7 +138,7 @@ class APIProductController extends Controller
     }
 
     public function tambahStok(Request $request, $id){
-        $stok = Product::select('stok')->where('id', $id)->get();
+        $stok = Product::select('stok')->where('id', $id)->first();
         $stok = $stok + $request->stok;
 
         Product::where('id', $id)->update([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Store;
+use GuzzleHttp\Client;
 use App\Transaction;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -58,14 +59,18 @@ class APITransactionController extends Controller
     }
 
     public function payment(Request $request, $id){
-        $data = Transaction::find($id);
+        $transaksi = Transaction::find($id);
         $validator = Validator::make($request->all(),[
-            'bukti'
+            'bukti' => 'required|image' 
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
 
         $client = new Client();
 
-        $file = base64_encode(file_get_contents($request->icon));
+        $file = base64_encode(file_get_contents($request->bukti));
         $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
             'form_params' => [
                 'key' => '6d207e02198a847aa98d0a2a901485a5',
@@ -77,7 +82,9 @@ class APITransactionController extends Controller
         $data = $response->getBody()->getContents();
         $data = json_decode($data);
         $gambar = $data->image->url;
-        $data->bukti_bayar = '';
+
+        $transaksi->bukti_bayar = $gambar;
+        $transaksi->save();
     }
 
     public function confirmpay($id){
