@@ -12,8 +12,20 @@ use Illuminate\Support\Facades\Auth;
 
 class APITransactionController extends Controller
 {
-    public function index(){
+    public function beli(){
         $data = Transaction::where('user_id', Auth::user()->id)->get();
+
+        if($data->count() == 0){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success', 'data_founded', $data, 200);
+        }
+    }
+
+    public function pesanan(){
+        $user_id = Auth::user()->id;
+        $store = Store::where('user_id', $user_id)->first();
+        $data = Transaction::where('store_id', $store->id)->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -35,7 +47,7 @@ class APITransactionController extends Controller
         ]);
     }
 
-    public function checkout($id){
+    public function chekout($id){
         $cart = Cart::find($id);
         $data = Transaction::create([
             'user_id' => $cart->user_id,
@@ -46,6 +58,7 @@ class APITransactionController extends Controller
             'keterangan' => $cart->keterangan,
             'status' => 'pembayaran'
         ]);
+        $cart->delete();
         return $this->sendResponse('success', 'insert is success', $data, 200);
 
     }

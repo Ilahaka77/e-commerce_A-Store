@@ -37,6 +37,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('cart/update/{id}', 'APICartController@update');
     Route::delete('cart/delete/{id}', 'APICartController@destroy');
 
+    Route::get('beli', 'APITransactionController@beli');
+    Route::get('pesanan', 'APITransactionController@pesanan');
     Route::post('chekout/{id}', 'APITransactionController@chekout');
     Route::post('bayar/{id}', 'APITransactionController@bayar');
 
