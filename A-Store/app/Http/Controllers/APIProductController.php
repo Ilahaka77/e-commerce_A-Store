@@ -146,7 +146,7 @@ class APIProductController extends Controller
     }
 
     public function kurangStok(Request $request, $id){
-        $product = Product::where('id', $id)->get();
+        $product = Product::where('id', $id)->first();
         $product->stok = $product->stok - $request->stok;
         $product->save();
         return $this->sendResponse('success', 'update is success', $product , 201);
