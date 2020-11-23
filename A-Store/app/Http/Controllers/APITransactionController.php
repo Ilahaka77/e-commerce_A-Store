@@ -34,7 +34,6 @@ class APITransactionController extends Controller
 
     public function checkout($id){
         $cart = Cart::find($id);
-
         $data = Transaction::create([
             'user_id' => $cart->user_id,
             'store_id' => $cart->store_id,
@@ -44,5 +43,17 @@ class APITransactionController extends Controller
             'keterangan' => $cart->keterangan,
             'status' => 'pembayaran'
         ]);
+    }
+
+    public function confirmpay($id){
+
+    }
+
+    public function confirmsent($id){
+
+    }
+
+    public function cencel($id){
+        
     }
 }
