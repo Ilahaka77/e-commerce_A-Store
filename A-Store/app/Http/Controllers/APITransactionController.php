@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Store;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,17 +44,38 @@ class APITransactionController extends Controller
             'keterangan' => $cart->keterangan,
             'status' => 'pembayaran'
         ]);
+        return $this->sendResponse('success', 'insert is success', $data, 200);
+
+    }
+
+    public function getpay($id){
+        $data = Transaction::find($id);
+        $id_store = $data->sotre_id;
+        $rekening = Store::select('no_rekening', 'pemilik_rekening', 'bank')->where('id', $id_store)->first();
+        return $this->sendResponse('success', 'data_founded', $rekening, 200);
+
+    }
+
+    public function payment($id){
+        $data = Transaction::find($id);
+        $data->bukti_bayar = '';
     }
 
     public function confirmpay($id){
-
+        $data = Transaction::find($id);
+        $data->status = 'proses';
+        $data->save();
     }
 
     public function confirmsent($id){
-
+        $data = Transaction::find($id);
+        $data->status = 'diterima';
+        $data->save();
     }
 
     public function cencel($id){
-        
+        $data = Transaction::find($id);
+        $data->status =  'cencel';
+        $data->save();
     }
 }
