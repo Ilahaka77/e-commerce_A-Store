@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Store;
 use App\Transaction;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,8 +57,26 @@ class APITransactionController extends Controller
 
     }
 
-    public function payment($id){
+    public function payment(Request $request, $id){
         $data = Transaction::find($id);
+        $validator = Validator::make($request->all(),[
+            'bukti'
+        ]);
+
+        $client = new Client();
+
+        $file = base64_encode(file_get_contents($request->icon));
+        $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+            'form_params' => [
+                'key' => '6d207e02198a847aa98d0a2a901485a5',
+                'action' => 'upload',
+                'source' => $file,
+                'format' => 'json'
+            ]
+        ]);
+        $data = $response->getBody()->getContents();
+        $data = json_decode($data);
+        $gambar = $data->image->url;
         $data->bukti_bayar = '';
     }
 
