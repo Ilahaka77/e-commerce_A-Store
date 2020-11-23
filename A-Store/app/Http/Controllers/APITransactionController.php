@@ -60,7 +60,6 @@ class APITransactionController extends Controller
         ]);
         $cart->delete();
         $data = $this->beli();
-        return $this->sendResponse('success', 'insert is success', $data, 200);
 
     }
 
