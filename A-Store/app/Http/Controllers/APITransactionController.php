@@ -49,7 +49,7 @@ class APITransactionController extends Controller
 
     public function chekout($id){
         $cart = Cart::find($id);
-        $transaksi = Transaction::create([
+        $data = Transaction::create([
             'user_id' => $cart->user_id,
             'store_id' => $cart->store_id,
             'product_id' => $cart->product_id,
@@ -59,8 +59,8 @@ class APITransactionController extends Controller
             'status' => 'pembayaran'
         ]);
         $cart->delete();
-        $data = $this->beli();
-
+        return $this->sendResponse('success', 'chekout is success', $data, 201);
+        
     }
 
     public function getpay($id){
