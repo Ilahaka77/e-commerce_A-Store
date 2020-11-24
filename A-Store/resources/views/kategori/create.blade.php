@@ -43,8 +43,15 @@
                 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <form action="{{ url('kategoris') }}" method="post">
+                        <form action="{{ url('kategoris') }}" method="post" enctype="multipart/form-data">
                             @csrf
+                            <div class="form-group">
+                                <label>Icon </label>
+                                <input type="file" name="icon" class="form-control @error('icon') is-invalid @enderror" value="{{ old('icon') }}" autofocus>
+                                @error('icon')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label>Kategori </label>
                                 <input type="text" name="kategori" class="form-control @error('kategori') is-invalid @enderror" value="{{ old('kategori') }}" autofocus>

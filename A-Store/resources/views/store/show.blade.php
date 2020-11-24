@@ -55,12 +55,32 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
+                                    <th>Label</th>
+                                    <td><img src="{{ $store->thumbnail }}" alt=""></td>
+                                </tr>
+                                <tr>
                                     <th style="width:30%">User</th>
                                     <td>{{ $store->user->name }}</td>
                                 </tr>
                                 <tr>
                                     <th>Store</th>
                                     <td>{{ $store->nm_toko }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No Telepon</th>
+                                    <td>{{ $store->no_telepon }}</td>
+                                </tr>
+                                <tr>
+                                    <th>No Rekening</th>
+                                    <td>{{ $store->no_rekening }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Pemilik Rekening</th>
+                                    <td>{{ $store->pemilik_rekening }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Bank</th>
+                                    <td>{{ $store->bank }}</td>
                                 </tr>
                                 <tr>
                                     <th>Alamat</th>
@@ -76,6 +96,69 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('style/images/slide/promo6.jpg') }}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('style/images/slide/promo4.jpg') }}" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('style/images/slide/promo5.jpg') }}" class="d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                        <h4 class="text-center font-weight-bold m-4">Produk Terbaru</h4>
+
+                        <style>
+                            .card p {
+                                margin-top: 2px;
+                                margin-bottom: 1px;
+                            }
+                            .row .card:hover{
+                                box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+                                transform: scale(1,4,1,4);
+                            }
+                        </style>
+
+                        <div class="row mx-auto">
+                            @foreach ($products as $product)
+                            <div class="col-md-4">
+                                <div class="card m-1" style="">
+                                    <img src="{{ $product->thumbnail }}" class="card-img-top img-fluid" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="">{{ $product->nm_barang }}</h5>
+                                        <p class="card-text font-weight-bold">Rp. {{ number_format($product->harga) }}</p>
+                                        <p class="card-text">{{ $product->deskripsi }}</p>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <p class="card-text font-weight-bold">Stock : {{ $product->stok }}</p>
+                                        {{-- <a href="#" class="btn btn-warning btn-sm">Detail</a> --}}
+                                        {{-- <a href="#" class="btn btn-danger btn-sm">Rp. {{ number_format($product->harga) }}</a> --}}
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
 
                     </div>
                 </div>

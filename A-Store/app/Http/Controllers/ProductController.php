@@ -125,7 +125,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        // $gambar = '';
+        $gambar = '';
         $client = new Client();
 
         $validator = Validator::make($request->all(), [
