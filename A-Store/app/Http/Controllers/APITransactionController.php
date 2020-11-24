@@ -93,19 +93,32 @@ class APITransactionController extends Controller
 
     public function confirmpay($id){
         $data = Transaction::find($id);
-        $data->status = 'proses';
+        $data->status = 'packing';
         $data->save();
+        return $this->sendResponse('success', 'Beralih ke pembungkusan', null, 200);
+
+    }
+
+    public function sending($id){
+        $data = Transaction::find($id);
+        $data->status = 'pengirman';
+        $data->save();
+        return $this->sendResponse('success', 'Beralih ke Pengiriman', null, 200);
+
     }
 
     public function confirmsent($id){
         $data = Transaction::find($id);
         $data->status = 'diterima';
         $data->save();
+        return $this->sendResponse('success', 'Barang sudah diterima', null, 200);
+
     }
 
-    public function cencel($id){
+    public function destroy($id){
         $data = Transaction::find($id);
-        $data->status =  'cencel';
-        $data->save();
+        $data->delete();
+
+        return $this->sendResponse('success', 'Data has been deleted', null, 200);
     }
 }
