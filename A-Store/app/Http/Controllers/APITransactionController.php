@@ -34,20 +34,7 @@ class APITransactionController extends Controller
         }
     }
 
-    public function store(Request $request){
-        
-        $data = Transaction::create([
-            'user_id' => $request->user_id,
-            'store_id' => $request->store_id,
-            'product_id' => $request->product_id,
-            'jumlah' => $request->jumlah,
-            'harga' => $request->harga,
-            'keterangan' => $request->keterangan,
-            'status' => 'pembayaran'
-        ]);
-    }
-
-    public function chekout($id){
+    public function chekout(Request $request, $id){
         $cart = Cart::find($id);
         $data = Transaction::create([
             'user_id' => $cart->user_id,
@@ -56,11 +43,12 @@ class APITransactionController extends Controller
             'jumlah' => $cart->jumlah,
             'harga' => $cart->harga,
             'keterangan' => $cart->keterangan,
-            'status' => 'pembayaran'
+            'pengiriman' => $request->pengiriman,
+            'status' => 'pembayaran',
+            'bukti_bayar' => 'https://via.placeholder.com/150'
         ]);
         $cart->delete();
         return $this->sendResponse('success', 'chekout is success', $data, 201);
-        
     }
 
     public function getpay($id){
@@ -97,7 +85,10 @@ class APITransactionController extends Controller
         $gambar = $data->image->url;
 
         $transaksi->bukti_bayar = $gambar;
+        $transaksi->status = 'sudah dibayar';
         $transaksi->save();
+
+        return $this->sendResponse('success', 'pembayaran berhasil', null, 201);
     }
 
     public function confirmpay($id){

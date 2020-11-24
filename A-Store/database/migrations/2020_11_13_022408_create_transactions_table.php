@@ -21,7 +21,8 @@ class CreateTransactionsTable extends Migration
             $table->integer('jumlah');
             $table->double('harga');
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['pembayaran', 'proses', 'diterima', 'cencel']);
+            $table->string('pengiriman');
+            $table->enum('status', ['pembayaran', 'sudah dibayar','proses', 'pengiriman','diterima']);
             $table->string('bukti_bayar')->nullable();
             $table->timestamps();
         });

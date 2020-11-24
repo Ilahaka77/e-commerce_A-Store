@@ -40,6 +40,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('beli', 'APITransactionController@beli');
     Route::get('pesanan', 'APITransactionController@pesanan');
     Route::post('chekout/{id}', 'APITransactionController@chekout');
-    Route::post('bayar/{id}', 'APITransactionController@bayar');
+    Route::get('bayar/{id}', 'APITransactionController@getpay');
+    Route::post('bayar/{id}', 'APITransactionController@payment');
 
 });
