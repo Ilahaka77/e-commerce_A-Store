@@ -55,6 +55,10 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
+                                    <th>Thumbnail</th>
+                                    <td><img src="{{ $product->thumbnail }}" alt=""></td>
+                                </tr>
+                                <tr>
                                     <th style="width:30%">Nama Barang</th>
                                     <td>{{ $product->nm_barang }}</td>
                                 </tr>
@@ -67,16 +71,12 @@
                                     <td>{{ $product->kategori->kategori }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Thumbnail</th>
-                                    <td><img src="{{ $product->avatar }}" alt=""></td>
-                                </tr>
-                                <tr>
                                     <th>Deskripsi</th>
                                     <td>{{ $product->deskripsi }}</td>
                                 </tr>
                                 <tr>
                                     <th>Harga</th>
-                                    <td>{{ $product->harga }}</td>
+                                    <td>Rp. {{ number_format($product->harga ) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Stok</th>

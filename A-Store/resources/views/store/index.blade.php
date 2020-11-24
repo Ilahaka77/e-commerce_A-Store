@@ -40,22 +40,21 @@
                 <div class="pull-left">
                     <strong>Data Store</strong>
                 </div>
-                {{-- <div class="pull-right">
+                <div class="pull-right">
                     <a href="{{ url('stores/create') }}" class="btn btn-success btn-sm">
                         <i class="fa fa-plus"></i> Add
                     </a>
-                </div> --}}
+                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>No.</th>
                             <th>User</th>
                             <th>Toko</th>
                             <th>Alamat</th>
                             <th>Kota</th>
-                            <th>Kode Pos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +66,6 @@
                                     <td>{{ $item->nm_toko }}</td>
                                     <td>{{ $item->alamat }}</td>
                                     <td>{{ $item->kota }}</td>
-                                    <td>{{ $item->kd_pos }}</td>
                                     <td class="text-center">
                                         <a href="{{ url('stores/' . $item->id) }}" class="btn btn-warning btn-sm">
                                             <i class="fa fa-eye"></i>

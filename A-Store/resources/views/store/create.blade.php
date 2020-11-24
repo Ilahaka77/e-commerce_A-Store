@@ -43,7 +43,7 @@
                 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <form action="{{ url('stores') }}" method="post">
+                        <form action="{{ url('stores') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>User</label>
@@ -58,9 +58,44 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label>Thumbnail</label>
+                                <input type="file" name="thumbnail" class="form-control @error('thumbnail') is-invalid @enderror" value="{{ old('thumbnail') }}" autofocus>
+                                @error('thumbnail')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label>Nama Toko</label>
                                 <input type="text" name="nm_toko" class="form-control @error('nm_toko') is-invalid @enderror" value="{{ old('nm_toko') }}" autofocus>
                                 @error('nm_toko')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>No Telepon</label>
+                                <input type="text" name="no_telepon" class="form-control @error('no_telepon') is-invalid @enderror" value="{{ old('no_telepon') }}" autofocus>
+                                @error('no_telepon')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>No Rekening</label>
+                                <input type="text" name="no_rekening" class="form-control @error('no_rekening') is-invalid @enderror" value="{{ old('no_rekening') }}" autofocus>
+                                @error('no_rekening')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Pemilik Rekening</label>
+                                <input type="text" name="pemilik_rekening" class="form-control @error('pemilik_rekening') is-invalid @enderror" value="{{ old('pemilik_rekening') }}" autofocus>
+                                @error('pemilik_rekening')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Bank</label>
+                                <input type="text" name="bank" class="form-control @error('bank') is-invalid @enderror" value="{{ old('bank') }}" autofocus>
+                                @error('bank')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

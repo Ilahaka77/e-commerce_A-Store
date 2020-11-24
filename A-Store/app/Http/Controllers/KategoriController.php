@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Kategori;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,13 +42,38 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $gambar = '';
+        $client = new Client();
+
+        $validator = Validator::make($request->all(), [
+            'icon' => 'image',
             'kategori' => 'required|string|min:5|max:225',
-        ], [
-            'kategori' => 'The kategori field is required.'
         ]);
 
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if(is_null($request->icon)){
+            $gambar = 'https://via.placeholder.com/150';
+        }else{
+            $file = base64_encode(file_get_contents($request->icon));
+            $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+                'form_params' => [
+                    'key' => '6d207e02198a847aa98d0a2a901485a5',
+                    'action' => 'upload',
+                    'source' => $file,
+                    'format' => 'json'
+                ]
+            ]);
+            $data = $response->getBody()->getContents();
+            $data = json_decode($data);
+            $gambar = $data->image->display_url;
+            // dd($gambar);
+        }
+
         kategori::create([
+            'icon' => $gambar, 
             'kategori' => $request->kategori, 
         ]);
 
@@ -85,11 +111,34 @@ class KategoriController extends Controller
      */
     public function update(Request $request, Kategori $kategori)
     {
-        $request->validate([
+        $gambar = '';
+        $client = new Client();
+
+        $validator = Validator::make($request->all(), [
+            'icon' => 'image',
             'kategori' => 'required|string|min:5|max:225',
-        ], [
-            'kategori' => 'The kategori field is required.'
-        ]);
+            ]);
+
+            if($validator->fails()){
+                return response()->json($validator->errors()->toJson(), 400);
+            }
+    
+            if(is_null($request->icon)){
+                $gambar = $kategori->icon;
+            }else{
+                $file = base64_encode(file_get_contents($request->icon));
+                $response = $client->request('POST', 'https://freeimage.host/api/1/upload',[
+                    'form_params' => [
+                        'key' => '6d207e02198a847aa98d0a2a901485a5',
+                        'action' => 'upload',
+                        'source' => $file,
+                        'format' => 'json'
+                    ]
+                ]);
+                $data = $response->getBody()->getContents();
+                $data = json_decode($data);
+                $gambar = $data->image->display_url;
+            }
 
         // cara 1
         // $kategori->kategori = $request->kategori;
@@ -98,6 +147,7 @@ class KategoriController extends Controller
         // cara 2
         Kategori::where('id', $kategori->id)
             ->update([
+                'icon' => $gambar,
                 'kategori' => $request->kategori,
             ]);
 

@@ -78,7 +78,7 @@ class APIUserController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -90,7 +90,6 @@ class APIUserController extends Controller
     public function store(Request $request)
     {
         
-
     }
 
     /**
@@ -156,7 +155,6 @@ class APIUserController extends Controller
             $data = json_decode($data);
             $gambar = $data->image->display_url;
             // dd($gambar);
-
         }
         
         $data = User::where('id',$id)->update([
@@ -181,6 +179,5 @@ class APIUserController extends Controller
         $id = Auth::user()->id;
         $data = User::destroy($id);
         return $this->sendResponse('success', 'Data has been deleted', $data, 200);
-
     }
 }
