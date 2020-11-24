@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class APITransactionController extends Controller
 {
     public function beli(){
-        $data = Transaction::where('user_id', Auth::user()->id)->get();
+        $data = Transaction::where('user_id', Auth::user()->id)-with('product', 'store')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
