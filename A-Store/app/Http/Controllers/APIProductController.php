@@ -49,14 +49,15 @@ class APIProductController extends Controller
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
-            return $this->sendResponse('success','data_founded', $data, 200);
+            // return $this->sendResponse('success','data_founded', [$store, $data], 200);
+            // return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
+            return response()->json(compact('store', 'data'), 200);
         }
     }
 
     public function store(Request $request){
 
         $client = new Client();
-        $gambar = '';
 
         $validator = Validator::make($request->all(),[
             'thumbnail' => 'required|image',
@@ -137,28 +138,21 @@ class APIProductController extends Controller
     }
 
     public function tambahStok(Request $request, $id){
-        $stok = Product::select('stok')->where('id', $id)->get();
-        $stok = $stok + $request->stok;
+        $product = Product::where('id', $id)->first();
+        $product->stok = $product->stok + $request->stok;
+        $product->save();
 
-        Product::where('id', $id)->update([
-            'stok' => $stok
-        ]);
-
-        return $this->sendResponse('success', 'update is success', $stok , 201);
+        return $this->sendResponse('success', 'update is success', $product , 201);
     }
 
     public function kurangStok(Request $request, $id){
-        $stok = Product::select('stok')->where('id', $id)->get();
-        $stok = $stok - $request->stok;
-
-        Product::where('id', $id)->update([
-            'stok' => $stok
-        ]);
-
-        return $this->sendResponse('success', 'update is success', $stok , 201);
+        $product = Product::where('id', $id)->first();
+        $product->stok = $product->stok - $request->stok;
+        $product->save();
+        return $this->sendResponse('success', 'update is success', $product , 201);
     }
 
-    public function delete($id){
+    public function destroy($id){
         $product = Product::where('id', $id)->delete();
         return $this->sendResponse('success', 'data has been deleted', $product , 201);
     }

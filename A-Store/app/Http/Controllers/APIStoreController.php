@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use App\Store;
 use App\User;
 use GuzzleHttp\Client;
@@ -12,15 +13,6 @@ use Illuminate\Support\Facades\Validator;
 class APIStoreController extends Controller
 {
     public function index(){
-        $data = Store::all();
-        if($data->count() == 0){
-            return $this->sendResponse('error','data_not_found', null, 404);
-        }else{
-            return $this->sendResponse('success', 'data_founded', $data, 200);
-        }
-    }
-
-    public function show($id){
         $id = Auth::user()->id;
         $store = Store::where('user_id', $id)->get();
         if($store->count() == 0){
@@ -29,6 +21,17 @@ class APIStoreController extends Controller
             return $this->sendResponse('success', 'data_founded', $store, 200);
         }
     }
+
+    public function show($id){
+        $store = Store::where('id', $id)->first();
+        $product = Product::where('store_id', $store->id)->get();
+        if($store->count() == 0){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            return $this->sendResponse('success', 'data_founded', [$store, $product], 200);
+        }
+    }
+    
 
     public function store(Request $request){
         $user = Auth::user();
