@@ -56,31 +56,31 @@
                             <tbody>
                                 <tr>
                                     <th>Thumbnail</th>
-                                    <td><img src="{{ $product->thumbnail }}" alt=""></td>
+                                    <td class="text-center"><img src="{{ $product->thumbnail }}" style="width: 250px; height: 250px;" alt=""></td>
                                 </tr>
                                 <tr>
                                     <th style="width:30%">Nama Barang</th>
-                                    <td>{{ $product->nm_barang }}</td>
+                                    <td class="text-center">{{ $product->nm_barang }}</td>
                                 </tr>
                                 <tr>
                                     <th>Store</th>
-                                    <td>{{ $product->store->nm_toko }}</td>
+                                    <td class="text-center">{{ $product->store->nm_toko }}</td>
                                 </tr>
                                 <tr>
                                     <th>Kategori</th>
-                                    <td>{{ $product->kategori->kategori }}</td>
+                                    <td class="text-center">{{ $product->kategori->kategori }}</td>
                                 </tr>
                                 <tr>
                                     <th>Deskripsi</th>
-                                    <td>{{ $product->deskripsi }}</td>
+                                    <td class="text-center">{{ $product->deskripsi }}</td>
                                 </tr>
                                 <tr>
                                     <th>Harga</th>
-                                    <td>Rp. {{ number_format($product->harga ) }}</td>
+                                    <td class="text-center">Rp. {{ number_format($product->harga ) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Stok</th>
-                                    <td>{{ $product->stok }}</td>
+                                    <td class="text-center">{{ $product->stok }}</td>
                                 </tr>
                                 {{-- <tr>
                                     <th>Created at</th>

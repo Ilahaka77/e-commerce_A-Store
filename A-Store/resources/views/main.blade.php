@@ -48,23 +48,24 @@
                         <ul class="sub-menu children dropdown-menu">
                             @if (Auth::user()->role == 'super admin')
                                 
-                            <li><i class="fa fa-user-circle-o"></i><a href="{{ url('users') }}">User</a></li>
-                            <li><i class="fa fa-home"></i><a href="{{ url('stores') }}">Store</a></li>
-                            <li><i class="fa fa-shopping-cart"></i><a href="{{ url('kategoris') }}">Kategori</a></li>
+                            <li><i class="fa fa-user-circle-o"></i><a href="{{ url('users') }}">A-User</a></li>
+                            <li><i class="fa fa-home"></i><a href="{{ url('stores') }}">A-Store</a></li>
+                            <li><i class="fa fa-shopping-cart"></i><a href="{{ url('kategoris') }}">A-Kategori</a></li>
                             @else
-                            <li><i class="fa fa-user-circle-o"></i><a href="{{ url('users') }}">User</a></li>
                             <li><i class="fa fa-shopping-bag"></i><a href="{{ url('products') }}">Product</a></li>
                             <li><i class="fa fa-shopping-basket"></i><a href="{{ url('') }}">Pesanan</a></li>
                             <li><i class="fa fa-handshake-o"></i><a href="{{ url('') }}">Transaksi</a></li>
                             @endif
                         </ul>
                         <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
-                        <li>
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="menu-icon fa fa-history"></i>{{ __('Logout') }}</a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                            </form>
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <li><i class="menu-icon fa     fa-tags"></i><a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                                </form>
+                            </ul>
                         </li>
                     </li>
                 </ul>

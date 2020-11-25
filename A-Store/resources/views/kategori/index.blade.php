@@ -59,7 +59,7 @@
                         @foreach ($kategoris as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img src="{{ $item->icon }}" alt=""></td>
+                                <td class="text-center"><img src="{{ $item->icon }}" alt="" style="width: 50px; hight: 50px;"></td>
                                 <td>{{ $item->kategori }}</td>
                                 <td class="text-center">
                                     <a href="{{ url('kategoris/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
