@@ -44,7 +44,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('bayar/{id}', 'APITransactionController@payment');
     Route::put('confirmpay/{id}', 'APITransactionController@confirmpay');
     Route::put('sending/{id}', 'APITransactionController@sending');
-    Route::put('confirmsent/{id}', 'APITransactionController@confirmsent');
+    Route::put('diterima/{id}', 'APITransactionController@confirmsent');
     Route::delete('chekout/{id}', 'APITransactionController@destroy');
 
 });
