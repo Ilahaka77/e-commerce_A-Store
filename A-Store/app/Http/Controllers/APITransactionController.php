@@ -26,7 +26,7 @@ class APITransactionController extends Controller
     public function pesanan(){
         $user_id = Auth::user()->id;
         $store = Store::where('user_id', $user_id)->first();
-        $data = Transaction::where('store_id', $store->id)->get();
+        $data = Transaction::where('store_id', $store->id)->with('product','user')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
