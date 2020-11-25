@@ -56,7 +56,7 @@
                             <tbody>
                                 <tr>
                                     <th>Label</th>
-                                    <td><img src="{{ $store->thumbnail }}" alt=""></td>
+                                    <td class="text-center"><img src="{{ $store->thumbnail }}" alt="" style="width: 250px; hight: 250px;"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:30%">User</th>
@@ -105,7 +105,7 @@
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="{{ asset('style/images/slide/promo6.jpg') }}" class="d-block w-100" alt="...">
+                                    <img src="{{ asset('style/images/slide/promo1.jpg') }}" class="d-block w-100" alt="...">
                                 </div>
                                 <div class="carousel-item">
                                     <img src="{{ asset('style/images/slide/promo4.jpg') }}" class="d-block w-100" alt="...">
@@ -127,6 +127,10 @@
                         <h4 class="text-center font-weight-bold m-4">Produk Terbaru</h4>
 
                         <style>
+                            .card h5 {
+                                margin-top: 2px;
+                                margin-bottom: 1px;
+                            }
                             .card p {
                                 margin-top: 2px;
                                 margin-bottom: 1px;
@@ -140,17 +144,17 @@
                         <div class="row mx-auto">
                             @foreach ($products as $product)
                             <div class="col-md-4">
-                                <div class="card m-1" style="">
-                                    <img src="{{ $product->thumbnail }}" class="card-img-top img-fluid" alt="...">
+                                <div class="card m-1" style="width: 200px; hight: 200px;">
+                                    <img class="justify-content-center" src="{{ $product->thumbnail }}" class="card-img-top img-fluid" style="width: 250px; hight: 250px;" alt="...">
                                     <div class="card-body">
                                         <h5 class="">{{ $product->nm_barang }}</h5>
                                         <p class="card-text font-weight-bold">Rp. {{ number_format($product->harga) }}</p>
                                         <p class="card-text">{{ $product->deskripsi }}</p>
+                                        {{-- <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-half-o"></i> --}}
                                         <p class="card-text font-weight-bold">Stock : {{ $product->stok }}</p>
                                         {{-- <a href="#" class="btn btn-warning btn-sm">Detail</a> --}}
                                         {{-- <a href="#" class="btn btn-danger btn-sm">Rp. {{ number_format($product->harga) }}</a> --}}
