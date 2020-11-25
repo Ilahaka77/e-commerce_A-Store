@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Product;
 use App\Store;
 use GuzzleHttp\Client;
 use App\Transaction;
@@ -93,8 +94,13 @@ class APITransactionController extends Controller
 
     public function confirmpay($id){
         $data = Transaction::find($id);
+        $product = Product::where('id', $data->product_id)->first();
         $data->status = 'packing';
         $data->save();
+
+        $product->stok = $product->stok - $data->jumlah;
+        $product->save();
+        
         return $this->sendResponse('success', 'Beralih ke pembungkusan', null, 200);
 
     }
