@@ -100,14 +100,14 @@ class APITransactionController extends Controller
 
         $product->stok = $product->stok - $data->jumlah;
         $product->save();
-        
+
         return $this->sendResponse('success', 'Beralih ke pembungkusan', null, 200);
 
     }
 
     public function sending($id){
         $data = Transaction::find($id);
-        $data->status = 'pengirman';
+        $data->status = 'pengiriman';
         $data->save();
         return $this->sendResponse('success', 'Beralih ke Pengiriman', null, 200);
 
