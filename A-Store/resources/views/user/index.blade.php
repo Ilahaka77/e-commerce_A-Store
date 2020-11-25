@@ -54,7 +54,6 @@
                             <th>Name</th>
                             <th>Avatar</th>
                             <th>Email</th>
-                            {{-- <th>Alamat</th> --}}
                             <th>Role</th>
                             <th>Aksi</th>
                         </tr>
@@ -64,9 +63,8 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td><img src="{{ $item->avatar }}" alt=""></td>
+                                <td class="text-center"><img src="{{ $item->avatar }}" alt="" style="width: 120px; hight: 120px;"></td>
                                 <td>{{ $item->email }}</td>
-                                {{-- <td>{{ $item->alamat }}</td> --}}
                                 <td>{{ $item->role }}</td>
                                 <td class="text-center">
                                     <a href="{{ url('users/' . $item->id . '/edit') }}" class="btn btn-primary btn-sm">
