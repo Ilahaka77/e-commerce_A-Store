@@ -105,9 +105,10 @@ class APITransactionController extends Controller
 
     }
 
-    public function sending($id){
+    public function sending(Request $request, $id){
         $data = Transaction::find($id);
         $data->status = 'pengiriman';
+        $data->kd_resi = $request->kode_resi;
         $data->save();
         return $this->sendResponse('success', 'Beralih ke Pengiriman', null, 200);
 
