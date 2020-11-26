@@ -24,6 +24,7 @@ class CreateTransactionsTable extends Migration
             $table->string('pengiriman');
             $table->enum('status', ['pembayaran', 'sudah dibayar','packing', 'pengiriman','diterima']);
             $table->string('bukti_bayar')->nullable();
+            $table->string('kd_resi')->nullable();
             $table->timestamps();
         });
     }

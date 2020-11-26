@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Product;
 use App\Store;
 use GuzzleHttp\Client;
 use App\Transaction;
@@ -25,7 +26,7 @@ class APITransactionController extends Controller
     public function pesanan(){
         $user_id = Auth::user()->id;
         $store = Store::where('user_id', $user_id)->first();
-        $data = Transaction::where('store_id', $store->id)->get();
+        $data = Transaction::where('store_id', $store->id)->with('product','user')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -93,19 +94,38 @@ class APITransactionController extends Controller
 
     public function confirmpay($id){
         $data = Transaction::find($id);
-        $data->status = 'proses';
+        $product = Product::where('id', $data->product_id)->first();
+        $data->status = 'packing';
         $data->save();
+
+        $product->stok = $product->stok - $data->jumlah;
+        $product->save();
+
+        return $this->sendResponse('success', 'Beralih ke pembungkusan', null, 200);
+
+    }
+
+    public function sending(Request $request, $id){
+        $data = Transaction::find($id);
+        $data->status = 'pengiriman';
+        $data->kd_resi = $request->kode_resi;
+        $data->save();
+        return $this->sendResponse('success', 'Beralih ke Pengiriman', null, 200);
+
     }
 
     public function confirmsent($id){
         $data = Transaction::find($id);
         $data->status = 'diterima';
         $data->save();
+        return $this->sendResponse('success', 'Barang sudah diterima', null, 200);
+
     }
 
-    public function cencel($id){
+    public function destroy($id){
         $data = Transaction::find($id);
-        $data->status =  'cencel';
-        $data->save();
+        $data->delete();
+
+        return $this->sendResponse('success', 'Data has been deleted', null, 200);
     }
 }
