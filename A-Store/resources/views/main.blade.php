@@ -53,15 +53,15 @@
                             <li><i class="fa fa-shopping-cart"></i><a href="{{ url('kategoris') }}">A-Kategori</a></li>
                             @else
                             <li><i class="fa fa-shopping-bag"></i><a href="{{ url('products') }}">Product</a></li>
-                            <li><i class="fa fa-shopping-basket"></i><a href="{{ url('') }}">Pesanan</a></li>
-                            <li><i class="fa fa-handshake-o"></i><a href="{{ url('') }}">Transaksi</a></li>
+                            <li><i class="fa fa-shopping-basket"></i><a href="{{ url('pesanans') }}">Pesanan</a></li>
+                            <li><i class="fa fa-handshake-o"></i><a href="{{ url('transactions') }}">Transaksi</a></li>
                             @endif
                         </ul>
                         <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
                             <ul class="sub-menu children dropdown-menu">
-                                <li><i class="menu-icon fa     fa-tags"></i><a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
+                                <li><i class="menu-icon fa fa-tags"></i><a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}</a></li>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                                 </form>

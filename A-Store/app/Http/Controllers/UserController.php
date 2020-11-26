@@ -50,6 +50,7 @@ class UserController extends Controller
             'avatar' => 'image',
             'email' => 'required',
             'password' => 'required',
+            'no_telepon' => 'required',
             'alamat' => 'required',
             'role' => 'required',
         ]);
@@ -81,6 +82,7 @@ class UserController extends Controller
             'avatar' => $gambar,
             'email' => $request->email, 
             'password' => Hash::make($request->get('password')),
+            'no_telepon' => $request->no_telepon, 
             'alamat' => $request->alamat, 
             'role' => $request->role,
         ]);
@@ -126,6 +128,7 @@ class UserController extends Controller
             'name' => 'required|string|min:2|max:225',
             'avatar' => 'image',
             'email' => 'required',
+            'no_telepon' => 'required',
             'alamat' => 'required',
             'role' => 'required',
         ]);
@@ -156,6 +159,7 @@ class UserController extends Controller
                 'name' => $request->name, 
                 'avatar' => $gambar,
                 'email' => $request->email, 
+                'no_telepon' => $request->no_telepon, 
                 'alamat' => $request->alamat, 
                 'role' => $request->role,
             ]);
