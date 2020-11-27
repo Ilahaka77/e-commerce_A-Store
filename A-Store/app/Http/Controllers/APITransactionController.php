@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\History;
 use App\Product;
 use App\Store;
 use GuzzleHttp\Client;
@@ -118,14 +119,26 @@ class APITransactionController extends Controller
         $data = Transaction::find($id);
         $data->status = 'diterima';
         $data->save();
+        $history = History::create([
+            'user_id' => $data->user_id,
+            'store_id' => $data->store_id,
+            'product_id' => $data->product_id,
+            'jumlah' => $data->jumlah,
+            'harga' => $data->harga,
+            'keterangan' => $data->keterangan,
+            'pengiriman' => $data->pengiriman,
+            'status' => 'done',
+            'bukti_bayar' => $data->bukti_bayar,
+            'kd_resi' => $data->kd_resi
+        ]);
         return $this->sendResponse('success', 'Barang sudah diterima', null, 200);
 
     }
 
     public function destroy($id){
         $data = Transaction::find($id);
-        if($data->status != 'diterima'){
-            return $this->sendResponse('success', 'Transaksi belum selesai', null, 200);
+        if($data->status != 'pembayaran' || $data->status != 'diterima'){
+            return $this->sendResponse('success', 'Transaksi tidak dapat dihapus setelah dibayar', null, 200);
         }
         $data->delete();
 
