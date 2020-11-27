@@ -33,7 +33,7 @@ class APIProductController extends Controller
     }
 
     public function showKategori($id){
-        $data = Product::where('kategori_id', $id)->get();
+        $data = Product::where('kategori_id', $id)->with('store')->get();
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
