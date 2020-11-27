@@ -124,8 +124,11 @@ class APITransactionController extends Controller
 
     public function destroy($id){
         $data = Transaction::find($id);
+        if($data->status != 'diterima'){
+            return $this->sendResponse('success', 'Transaksi belum selesai', null, 200);
+        }
         $data->delete();
 
-        return $this->sendResponse('success', 'Data has been deleted', null, 200);
+        return $this->sendResponse('success', 'Data berhasil dihapus', null, 200);
     }
 }
