@@ -140,7 +140,7 @@ class APITransactionController extends Controller
         if($data->status != 'pembayaran' || $data->status != 'diterima'){
             return $this->sendResponse('success', 'Transaksi tidak dapat dihapus setelah dibayar', null, 200);
         }
-        $data->delete();
+        $data->destroy();
 
         return $this->sendResponse('success', 'Data berhasil dihapus', null, 200);
     }
