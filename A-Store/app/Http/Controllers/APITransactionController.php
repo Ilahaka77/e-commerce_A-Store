@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class APITransactionController extends Controller
 {
     public function beli(){
-        $data = Transaction::where('user_id', Auth::user()->id)->with('product', 'store')->get();
+        $data = Transaction::where('user_id', Auth::user()->id)->with('product', 'store')->orderBy('created_at', 'desc')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -27,7 +27,7 @@ class APITransactionController extends Controller
     public function pesanan(){
         $user_id = Auth::user()->id;
         $store = Store::where('user_id', $user_id)->first();
-        $data = Transaction::where('store_id', $store->id)->with('product','user')->get();
+        $data = Transaction::where('store_id', $store->id)->with('product','user')->orderBy('created_at', 'desc')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);

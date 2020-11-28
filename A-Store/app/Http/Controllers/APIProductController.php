@@ -44,7 +44,7 @@ class APIProductController extends Controller
     public function showStore(){
         $store = Store::where('user_id', Auth::user()->id)->first();
 
-        $data = Product::where('store_id', $store->id)->get();
+        $data = Product::where('store_id', $store->id)->orderBy('created_at', 'desc')->get();
         // dd($data);
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
