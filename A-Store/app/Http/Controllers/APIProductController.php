@@ -55,6 +55,18 @@ class APIProductController extends Controller
         }
     }
 
+    public function search(Request $request){
+        // $data = Product::search($request->cari)->with('store', 'kategori')->get();
+        $data = Product::where('nm_barang', 'like', '%'.$request->cari.'%')->with('store','kategori')->get();
+        if(is_null($data)){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            // return $this->sendResponse('success','data_founded', [$store, $data], 200);
+            // return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
+            return response()->json(compact('data'), 200);
+        }
+    }
+
     public function store(Request $request){
 
         $client = new Client();
