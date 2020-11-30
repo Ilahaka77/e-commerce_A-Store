@@ -48,4 +48,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('diterima/{id}', 'APITransactionController@confirmsent');
     Route::delete('hapus/{id}', 'APITransactionController@destroy');
 
+    Route::get('pesan', 'APIMessageController@user');
+    Route::get('pesan/{id}', 'APIMessageController@getMessage');
+    Route::post('pesan/kirim/{id}', 'APIMessageController@getMessage');
+
 });
