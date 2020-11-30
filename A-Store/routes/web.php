@@ -31,6 +31,9 @@ Route::resource('users', 'UserController');
 Route::resource('kategoris', 'KategoriController');
 Route::resource('stores', 'StoreController');
 Route::resource('products', 'ProductController');
+Route::post('confirmbayar/{id}', 'PesananController@method');
+Route::resource('pesanans', 'PesananController');
+Route::resource('transactions', 'TransactionController');
 });
 
 

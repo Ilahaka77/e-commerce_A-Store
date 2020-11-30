@@ -74,6 +74,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label>No Telepon </label>
+                                <input type="no_telepon" name="no_telepon" class="form-control @error('no_telepon') is-invalid @enderror" value="{{ old('no_telepon') }}" autofocus>
+                                @error('no_telepon')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label>Alamat </label>
                                 <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}" autofocus>
                                 @error('alamat')
