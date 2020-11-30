@@ -16,11 +16,13 @@ class APIMessageController extends Controller
 {
     public function user(){
 
-        $user = DB::select("SELECT users.id, users.name, users.avatar, users.email, count(is_read) as unread from users LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to) and is_read = 0 where users.id != ".Auth::user()->id ." AND (messages.from = ". Auth::user()->id ." OR messages.to = ". Auth::user()->id .") group by users.id, users.name, users.avatar, users.email");
+        $user = DB::select("SELECT users.id, users.name, users.avatar, users.email from users LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to) and is_read = 0 where users.id != ".Auth::user()->id ." AND (messages.from = ". Auth::user()->id ." OR messages.to = ". Auth::user()->id .") group by users.id, users.name, users.avatar, users.email");
+
+        $unread = Message::select(DB::raw('count(is_read) as unread'))->where('to', Auth::user()->id)->where('is_read', 0)->first();
 
         // $user = User::select('users.id', 'users.name', 'users.avatar', 'users.email', DB::raw('COUNT(is_read) as unread'))->leftJoin('messages', 'users.id', '=', 'messages.to')->where('users.id', '!=', Auth::user()->id)->where('messages.to', Auth::user()->id)->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')->get();
 
-        return response()->json(compact('user'), 200);
+        return response()->json(compact('user', 'unread'), 200);
         
     }
 
