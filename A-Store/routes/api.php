@@ -50,6 +50,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::get('pesan', 'APIMessageController@user');
     Route::get('pesan/{id}', 'APIMessageController@getMessage');
-    Route::post('pesan/kirim/{id}', 'APIMessageController@getMessage');
+    Route::post('pesan/kirim/{id}', 'APIMessageController@sentMessage');
 
 });
