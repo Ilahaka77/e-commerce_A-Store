@@ -24,11 +24,12 @@ class APIProductController extends Controller
     }
 
     public function show($id){
-        $data = Product::where('id', $id)->with('store', 'kategori')->get();
-        if(is_null($data)){
+        $product = Product::where('id', $id)->with('kategori')->get();
+        $store = Store::where('id', $product->store_id)->with('user')->first();
+        if(is_null($product)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
-            return $this->sendResponse('success','data_founded', $data, 200);
+            return $this->sendResponse('success','data_founded', ['product'=>$product, 'store'=>$store], 200);
         }
     }
 
