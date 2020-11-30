@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\History;
 use App\Product;
 use App\Store;
 use GuzzleHttp\Client;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class APITransactionController extends Controller
 {
     public function beli(){
-        $data = Transaction::where('user_id', Auth::user()->id)->with('product', 'store')->get();
+        $data = Transaction::where('user_id', Auth::user()->id)->with('product', 'store')->orderBy('created_at', 'desc')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -26,7 +27,7 @@ class APITransactionController extends Controller
     public function pesanan(){
         $user_id = Auth::user()->id;
         $store = Store::where('user_id', $user_id)->first();
-        $data = Transaction::where('store_id', $store->id)->with('product','user')->get();
+        $data = Transaction::where('store_id', $store->id)->with('product','user')->orderBy('created_at', 'desc')->get();
 
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -118,14 +119,29 @@ class APITransactionController extends Controller
         $data = Transaction::find($id);
         $data->status = 'diterima';
         $data->save();
+        $history = History::create([
+            'user_id' => $data->user_id,
+            'store_id' => $data->store_id,
+            'product_id' => $data->product_id,
+            'jumlah' => $data->jumlah,
+            'harga' => $data->harga,
+            'keterangan' => $data->keterangan,
+            'pengiriman' => $data->pengiriman,
+            'status' => 'done',
+            'bukti_bayar' => $data->bukti_bayar,
+            'kd_resi' => $data->kd_resi
+        ]);
         return $this->sendResponse('success', 'Barang sudah diterima', null, 200);
 
     }
 
     public function destroy($id){
         $data = Transaction::find($id);
-        $data->delete();
+        if($data->status == 'diterima'){
+            $data->destroy();
+            return $this->sendResponse('success', 'Data berhasil dihapus', null, 200);
+        }
+        return $this->sendResponse('success', 'Transaksi tidak dapat dihapus setelah dibayar', null, 400);
 
-        return $this->sendResponse('success', 'Data has been deleted', null, 200);
     }
 }

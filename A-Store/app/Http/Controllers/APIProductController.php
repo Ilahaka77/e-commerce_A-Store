@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class APIProductController extends Controller
 {
     public function index(){
-        $product = Product::with('store','kategori')->get();
+        $product = Product::with('store','kategori')->orderBy('created_at', 'desc')->get();
         $kategori = Kategori::all();
         if($product->count() == 0){
             return $this->sendResponse('error','data_not_found', [null, $kategori], 404);
@@ -33,7 +33,7 @@ class APIProductController extends Controller
     }
 
     public function showKategori($id){
-        $data = Product::where('kategori_id', $id)->get();
+        $data = Product::where('kategori_id', $id)->with('store')->get();
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
@@ -44,7 +44,7 @@ class APIProductController extends Controller
     public function showStore(){
         $store = Store::where('user_id', Auth::user()->id)->first();
 
-        $data = Product::where('store_id', $store->id)->get();
+        $data = Product::where('store_id', $store->id)->orderBy('created_at', 'desc')->get();
         // dd($data);
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
@@ -52,6 +52,18 @@ class APIProductController extends Controller
             // return $this->sendResponse('success','data_founded', [$store, $data], 200);
             // return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
             return response()->json(compact('store', 'data'), 200);
+        }
+    }
+
+    public function search(Request $request){
+        // $data = Product::search($request->cari)->with('store', 'kategori')->get();
+        $data = Product::where('nm_barang', 'like', '%'.$request->cari.'%')->with('store','kategori')->get();
+        if(is_null($data)){
+            return $this->sendResponse('error','data_not_found', null, 404);
+        }else{
+            // return $this->sendResponse('success','data_founded', [$store, $data], 200);
+            // return $this->sendResponse('success','data_founded', compact('store', 'data'), 200);
+            return response()->json(compact('data'), 200);
         }
     }
 

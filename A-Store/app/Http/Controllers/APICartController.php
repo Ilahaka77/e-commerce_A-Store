@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class APICartController extends Controller
 {
     public function index(){
-        $data = Cart::where('user_id', Auth::user()->id)->with('user','product', 'store')->get();
+        $data = Cart::where('user_id', Auth::user()->id)->with('user','product', 'store')->orderBy('created_at', 'desc')->get();
         if($data->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{

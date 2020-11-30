@@ -30,6 +30,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('product/store', 'APIProductController@showStore');
     Route::post('product/tambah/{id}', 'APIProductController@tambahStok');
     Route::post('product/kurang/{id}', 'APIProductController@kurangStok');
+    Route::post('product/search', 'APIProductController@search');
     Route::resource('product', 'APIProductController');
 
     Route::get('cart', 'APICartController@index');
@@ -45,6 +46,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::put('confirmpay/{id}', 'APITransactionController@confirmpay');
     Route::put('sending/{id}', 'APITransactionController@sending');
     Route::put('diterima/{id}', 'APITransactionController@confirmsent');
-    Route::delete('chekout/{id}', 'APITransactionController@destroy');
+    Route::delete('hapus/{id}', 'APITransactionController@destroy');
+
+    Route::get('pesan', 'APIMessageController@user');
+    Route::get('pesan/{id}', 'APIMessageController@getMessage');
+    Route::post('pesan/kirim/{id}', 'APIMessageController@sentMessage');
 
 });
