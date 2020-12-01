@@ -16,9 +16,15 @@ class APIMessageController extends Controller
 {
     public function user(){
 
-        $user = DB::select("SELECT  users.id, users.name, users.avatar, users.email, max(messages.created_at) as tanggal from users LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to) and is_read = 0 where users.id != ".Auth::user()->id ." AND (messages.to = ". Auth::user()->id ." OR messages.from = ". Auth::user()->id .") group by users.id, users.name, users.avatar, users.email");
+        $user = DB::select("SELECT  users.id, users.name, users.avatar, users.email, max(messages.created_at) as tanggal from users 
+        LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to) and is_read = 0 
+        where users.id != ".Auth::user()->id ." AND (messages.to = ". Auth::user()->id ." OR messages.from = ". Auth::user()->id .") 
+        group by users.id, users.name, users.avatar, users.email");
 
-        $unread = DB::select("SELECT users.id, count('is_read') as unread from users LEFT JOIN messages ON users.id = messages.from and is_read = 0 where users.id != ".Auth::user()->id ." AND messages.to = ". Auth::user()->id ." group by users.id, users.name, users.avatar, users.email");
+        $unread = DB::select("SELECT users.id, count('is_read') as unread from users 
+        LEFT JOIN messages ON users.id = messages.from and is_read = 0 
+        where users.id != ".Auth::user()->id ." AND messages.to = ". Auth::user()->id ." 
+        group by users.id, users.name, users.avatar, users.email");
 
         // $user = User::select('users.id', 'users.name', 'users.avatar', 'users.email', DB::raw('COUNT(is_read) as unread'))->leftJoin('messages', 'users.id', '=', 'messages.to')->where('users.id', '!=', Auth::user()->id)->where('messages.to', Auth::user()->id)->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')->get();
 

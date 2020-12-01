@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Validator;
 class APIProductController extends Controller
 {
     public function index(){
-        $product = Product::with('store','kategori')->orderBy('created_at', 'desc')->get();
+        $product = Product::with('store','kategori','store.user')->orderBy('created_at', 'desc')->get();
+        // $product = Product::with('kategori')->join('stores', 'products.store_id', '=','stores.id')
+        // ->join('users', 'stores.user_id', '=', 'users.id')->get();
+
         $kategori = Kategori::all();
         if($product->count() == 0){
             return $this->sendResponse('error','data_not_found', [null, $kategori], 404);
