@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Message extends Model
 {
@@ -10,5 +11,11 @@ class Message extends Model
 
     public function user(){
         return $this->belongsTo('App\Users');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])
+        ->diffForHumans();
     }
 }

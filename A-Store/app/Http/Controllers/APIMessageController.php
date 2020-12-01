@@ -16,10 +16,17 @@ class APIMessageController extends Controller
 {
     public function user(){
 
-        $user = DB::select("SELECT  users.id, users.name, users.avatar, users.email,".DB::raw("DATE_FORMAT(max(messages.created_at),'%d/%m/%Y') as tanggal")." from users 
-        LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to)
-        where users.id != ".Auth::user()->id ." AND (messages.to = ". Auth::user()->id ." OR messages.from = ". Auth::user()->id .") 
-        group by users.id, users.name, users.avatar, users.email");
+        // $user = DB::select("SELECT  users.id, users.name, users.avatar, users.email, max(messages.created_at) as tanggal from users 
+        // LEFT JOIN messages ON (users.id = messages.from OR users.id = messages.to)
+        // where users.id != ".Auth::user()->id ." AND (messages.to = ". Auth::user()->id ." OR messages.from = ". Auth::user()->id .") 
+        // group by users.id, users.name, users.avatar, users.email");
+        
+        $user = User::leftJoin('messages', function($join){
+            $join->on('users.id', '=', 'messages.from')->orOn('users.id', '=', 'messages.to');
+        })->where('users.id', Auth::user()->id)->where(function($query){
+            $query->where('messages.from', '=', Auth::user()->id)->orWhere('messages.to', '=', Auth::user()->id);
+        })->select('users.id', 'users.name', 'users.avatar', 'users.email', DB::raw('max(messages.created_at) as tanggal'))
+        ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')->get();
 
         $unread = DB::select("SELECT users.id, count('is_read') as unread from users 
         LEFT JOIN messages ON users.id = messages.from and is_read = 0 
