@@ -23,7 +23,7 @@ class APIMessageController extends Controller
         
         $user = User::leftJoin('messages', function($join){
             $join->on('users.id', '=', 'messages.from')->orOn('users.id', '=', 'messages.to');
-        })->where('users.id', Auth::user()->id)->where(function($query){
+        })->where('users.id','!=' ,Auth::user()->id)->where(function($query){
             $query->where('messages.from', '=', Auth::user()->id)->orWhere('messages.to', '=', Auth::user()->id);
         })->select('users.id', 'users.name', 'users.avatar', 'users.email', DB::raw('max(messages.created_at) as tanggal'))
         ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')->get();
