@@ -69,20 +69,18 @@ class APIMessageController extends Controller
             'is_read' => 0
         ]);
 
-        $option = [
+        $options = array(
             'cluster' => 'ap1',
             'useTLS' => true
-        ];
-
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $option
         );
-
-        // $data = ['from' => $from, 'to' => $to];
-        $pusher->trigger('my-channel', 'my-event', $data);
+        $pusher = new Pusher(
+            '181fcc3c876309e9f9d4',
+            '48b0f1a1cfc9bc4c68fb',
+            '1114218',
+            $options
+        );
+        
+        $pusher->trigger('my-channel', 'my-event', $data);;
         return response()->json($data, 200);
     }
 }
