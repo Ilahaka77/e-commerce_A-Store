@@ -22,7 +22,7 @@ class APICartController extends Controller
 
     public function store(Request $request, $id){
 
-        $cart = Cart::where('product_id', $id)->with('product')->first();
+        $cart = Cart::where('product_id', $id)->where('user_id', Auth::user()->id)->with('product')->first();
         if(! $cart){
             $user = Auth::user()->id;
             $product = Product::where('id', $id)->with('store')->first();

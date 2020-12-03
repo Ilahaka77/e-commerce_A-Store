@@ -17,7 +17,6 @@ class APIProductController extends Controller
     public function index(){
         // $product = Product::with('store','kategori','store.user')->orderBy('created_at', 'desc')->get();
         $product = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->with('store', 'kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
-        
 
         $kategori = Kategori::all();
         if($product->count() == 0){
