@@ -9,14 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 
 class APIProductController extends Controller
 {
     public function index(){
-        $product = Product::with('store','kategori','store.user')->orderBy('created_at', 'desc')->get();
-        // $product = Product::with('kategori')->join('stores', 'products.store_id', '=','stores.id')
-        // ->join('users', 'stores.user_id', '=', 'users.id')->get();
+        // $product = Product::with('store','kategori','store.user')->orderBy('created_at', 'desc')->get();
+        $product = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->join('histories', 'histories.product_id', '=', 'products.id')->with('store', 'kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
+        
 
         $kategori = Kategori::all();
         if($product->count() == 0){
