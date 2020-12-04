@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Product;
 use App\Kategori;
 use App\Store;
@@ -19,10 +20,12 @@ class APIProductController extends Controller
         $product = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->with('store', 'kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
 
         $kategori = Kategori::all();
+
+        $cart = Cart::select(DB::raw('count(id) as cart'))->where('user_id', Auth::user()->id)->first();
         if($product->count() == 0){
             return $this->sendResponse('error','data_not_found', [null, $kategori], 404);
         }else{
-            return $this->sendResponse('success', 'data_founded', [$product, $kategori], 200);
+            return $this->sendResponse('success', 'data_founded', [$product, $kategori, $cart], 200);
         }
     }
 
