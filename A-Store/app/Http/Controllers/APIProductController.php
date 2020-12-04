@@ -37,7 +37,9 @@ class APIProductController extends Controller
     }
 
     public function showKategori($id){
-        $data = Product::where('kategori_id', $id)->with('store')->get();
+        // $data = Product::where('kategori_id', $id)->with('store')->get();
+        $data = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->where('product.kategori_id', $id)->with('store', 'kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
+        
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
@@ -60,8 +62,9 @@ class APIProductController extends Controller
     }
 
     public function search(Request $request){
-        // $data = Product::search($request->cari)->with('store', 'kategori')->get();
-        $data = Product::where('nm_barang', 'like', '%'.$request->cari.'%')->with('store','kategori')->get();
+        $data = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->with('store', 'kategori', 'store.user')->where('nm_barang', 'like', '%'.$request->cari.'%')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
+        
+        // $data = Product::where('nm_barang', 'like', '%'.$request->cari.'%')->with('store','kategori')->get();
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
         }else{
