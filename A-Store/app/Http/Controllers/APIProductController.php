@@ -53,7 +53,9 @@ class APIProductController extends Controller
     public function showStore(){
         $store = Store::where('user_id', Auth::user()->id)->first();
 
-        $data = Product::where('store_id', $store->id)->orderBy('created_at', 'desc')->get();
+        // $data = Product::where('store_id', $store->id)->orderBy('created_at', 'desc')->get();
+        $data = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->where('products.store_id', $store->id)->with('kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
+
         // dd($data);
         if(is_null($data)){
             return $this->sendResponse('error','data_not_found', null, 404);
