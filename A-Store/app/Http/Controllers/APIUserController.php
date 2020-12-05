@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Cart;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -101,8 +102,10 @@ class APIUserController extends Controller
     public function show(User $user)
     {
         $user = JWTAuth::parseToken()->authenticate();
+        $cart = Cart::select(DB::raw('count(id) as cart'))->where('user_id', Auth::user()->id)->first();
+
         // $user = Auth::user();
-        return $this->sendResponse('success', 'insert is success', $user, 200);
+        return $this->sendResponse('success', 'insert is success', ['user'=>$user, 'cart'=>$cart], 200);
     }
 
     /**

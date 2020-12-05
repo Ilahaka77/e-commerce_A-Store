@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\User;
+use App\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
@@ -33,11 +34,14 @@ class APIMessageController extends Controller
         where users.id != ".Auth::user()->id ." AND messages.to = ". Auth::user()->id ." 
         group by users.id, users.name, users.avatar, users.email");
 
+        $cart = Cart::select(DB::raw('count(id) as cart'))->where('user_id', Auth::user()->id)->first();
+
+
         // $user = User::select('users.id', 'users.name', 'users.avatar', 'users.email', DB::raw('COUNT(is_read) as unread'))->leftJoin('messages', 'users.id', '=', 'messages.to')->where('users.id', '!=', Auth::user()->id)->where('messages.to', Auth::user()->id)->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')->get();
 
         return $this->sendResponse('success', 'data is founded', ['user'=>$user,'notif'=>$unread], 200);
 
-        return response()->json(compact('user', 'unread'), 200);
+        return response()->json(compact('user', 'unread', 'cart'), 200);
         
     }
 

@@ -27,6 +27,7 @@ class APIStoreController extends Controller
         $store = Store::where('id', $id)->first();
         // $product = Product::where('store_id', $store->id)->get();
         $product = Product::select('products.*', DB::raw('sum(histories.jumlah) as terjual'))->leftJoin('histories', 'histories.product_id', '=', 'products.id')->where('products.store_id', $store->id)->with('kategori', 'store.user')->groupBy('products.id')->orderBy('products.created_at', 'desc')->get();
+        
 
         if($store->count() == 0){
             return $this->sendResponse('error','data_not_found', null, 404);
