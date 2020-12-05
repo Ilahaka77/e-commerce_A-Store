@@ -19,7 +19,7 @@ class StoreController extends Controller
     public function index()
     {
         // $stores = Store::all();
-        $stores = Store::with('user')->paginate(5);
+        $stores = Store::with('user')->paginate(2);
 
         // Tampilkan data yg telah terhapus baik yg terhapus sementara atau yg tidak terhapus
         // $stores = Store::withTrashed()->get();

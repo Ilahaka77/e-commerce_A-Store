@@ -149,13 +149,13 @@
                                     <div class="card-body">
                                         <h5 class="">{{ $product->nm_barang }}</h5>
                                         <p class="card-text font-weight-bold">Rp. {{ number_format($product->harga) }}</p>
-                                        <p class="card-text">{{ $product->deskripsi }}</p>
                                         {{-- <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-half-o"></i> --}}
                                         <p class="card-text font-weight-bold">Stock : {{ $product->stok }}</p>
+                                        <p class="card-text">{{ $product->deskripsi }}</p>
                                         {{-- <a href="#" class="btn btn-warning btn-sm">Detail</a> --}}
                                         {{-- <a href="#" class="btn btn-danger btn-sm">Rp. {{ number_format($product->harga) }}</a> --}}
                                     </div>

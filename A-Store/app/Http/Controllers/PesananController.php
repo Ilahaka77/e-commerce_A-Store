@@ -19,7 +19,7 @@ class PesananController extends Controller
      */
     public function index()
     {
-        $pesanans = Transaction::where('status', '!=', 'diterima')->with('product', 'user')->get();
+        $pesanans = Transaction::where('status', '!=', 'diterima')->with('product', 'user')->paginate(4);
         // dd($pesanans);
         return view('pesanan.index', compact('pesanans'));
     }
@@ -51,9 +51,11 @@ class PesananController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Transaction $pesanan)
     {
-        //
+        $pesanan->makeHidden(['user_id', 'product_id']);
+
+        return view('pesanan.show', compact('pesanan'));
     }
 
     /**
@@ -88,5 +90,39 @@ class PesananController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function confirmpay($id)
+    {
+        $data = Transaction::find($id);
+        $product = Product::where('id', $data->product_id)->first();
+        $data->status = 'packing';
+        $data->save();
+
+        $product->stok = $product->stok - $data->jumlah;
+        $product->save();
+
+        // dd($data);
+        // dd($product);
+
+        return redirect('pesanans')->with('status', 'Status Sedang di kemas!');
+    }
+
+    public function kd_resi($id){
+        return view('pesanan.kd_resi', compact('id'));
+        
+    }
+
+    public function sending(Request $request, $id)
+    {
+        $data = Transaction::find($id);
+        $data->status = 'pengiriman';
+        $data->kd_resi = $request->kd_resi;
+        $data->save();
+
+        // dd($data);
+
+        return redirect('pesanans')->with('status', 'Status Sedang di kirim!');
+
     }
 }

@@ -6,6 +6,7 @@ use App\Transaction;
 use App\User;
 use App\Store;
 use App\Product;
+use App\History;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +20,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        
+        $transactions = Transaction::paginate(4);
+
+        return view('transaction.index', compact('transactions'));
     }
 
     /**
@@ -51,7 +54,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $history = History::find($id);
+
+        return view('transaction.show', compact('history'));
     }
 
     /**

@@ -90,6 +90,7 @@
                         @endif
                     </tbody>
                 </table>
+                {{ $stores->links() }}
                 {{-- <div class="pull-left">
                     Showing
                     {{ $stores->firstItem() }}
